@@ -1,9 +1,97 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Stars } from '@react-three/drei';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+// Planet component
+function Planet({ position, size, color, name, speed, distance }) {
+  const meshRef = useRef();
+
+  useFrame(({ clock }) => {
+    if (meshRef.current) {
+      const time = clock.getElapsedTime();
+      meshRef.current.position.x = Math.cos(time * speed) * distance;
+      meshRef.current.position.z = Math.sin(time * speed) * distance;
+      meshRef.current.rotation.y += 0.01;
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={position}>
+      <sphereGeometry args={[size, 32, 32]} />
+      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.3} />
+    </mesh>
+  );
+}
+
+// Sun component
+function Sun() {
+  const meshRef = useRef();
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.002;
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={[0, 0, 0]}>
+      <sphereGeometry args={[2.5, 32, 32]} />
+      <meshStandardMaterial color="#FDB813" emissive="#FDB813" emissiveIntensity={1.5} />
+      <pointLight position={[0, 0, 0]} intensity={2} distance={100} />
+    </mesh>
+  );
+}
+
+// Solar System Scene
+function SolarSystemScene({ selectedPlanet }) {
+  const planets = [
+    { name: 'Mercury', size: 0.4, color: '#8C7853', speed: 0.04, distance: 6 },
+    { name: 'Venus', size: 0.95, color: '#FFC649', speed: 0.03, distance: 9 },
+    { name: 'Earth', size: 1, color: '#4A90E2', speed: 0.02, distance: 12 },
+    { name: 'Mars', size: 0.5, color: '#E27B58', speed: 0.018, distance: 15 },
+    { name: 'Jupiter', size: 2.2, color: '#C88B3A', speed: 0.01, distance: 22 },
+    { name: 'Saturn', size: 1.9, color: '#FAD5A5', speed: 0.009, distance: 28 },
+    { name: 'Uranus', size: 1.4, color: '#4FD0E7', speed: 0.006, distance: 34 },
+    { name: 'Neptune', size: 1.3, color: '#4166F5', speed: 0.005, distance: 40 }
+  ];
+
+  const filteredPlanets = selectedPlanet === 'all'
+    ? planets
+    : planets.filter(p => p.name.toLowerCase() === selectedPlanet);
+
+  return (
+    <>
+      <ambientLight intensity={0.3} />
+      <Sun />
+      <Stars radius={150} depth={60} count={8000} factor={5} saturation={0} fade speed={1} />
+      
+      {filteredPlanets.map(planet => (
+        <Planet
+          key={planet.name}
+          name={planet.name}
+          position={[planet.distance, 0, 0]}
+          size={planet.size}
+          color={planet.color}
+          speed={planet.speed}
+          distance={planet.distance}
+        />
+      ))}
+      
+      <OrbitControls
+        enableZoom={true}
+        enablePan={true}
+        enableRotate={true}
+        minDistance={10}
+        maxDistance={80}
+      />
+    </>
+  );
+}
 
 const Planets3D = () => {
   const [selectedPlanet, setSelectedPlanet] = useState('all');
