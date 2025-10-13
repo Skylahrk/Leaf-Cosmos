@@ -257,7 +257,10 @@ async def delete_stargazing_event(event_id: str):
 async def get_astronomical_events(location: LocationData):
     """Get upcoming astronomical events"""
     try:
-        obs_time = ephem.Date(location.datetime)
+        # Parse datetime - convert ISO format to datetime object
+        from datetime import datetime
+        dt = datetime.fromisoformat(location.datetime.replace('Z', '+00:00'))
+        obs_time = ephem.Date(dt)
         observer = ephem.Observer()
         observer.lat = str(location.latitude)
         observer.lon = str(location.longitude)
