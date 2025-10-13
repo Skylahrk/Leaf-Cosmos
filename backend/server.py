@@ -142,8 +142,9 @@ async def get_visible_stars(location: LocationData):
             {'name': 'Regulus', 'ra': 152.093, 'dec': 11.967, 'magnitude': 1.35}
         ]
         
-        # Calculate visibility for each star
-        obs_time = ephem.Date(location.datetime)
+        
+        # Famous bright stars with their coordinates
+        bright_stars = [
         observer = ephem.Observer()
         observer.lat = str(location.latitude)
         observer.lon = str(location.longitude)
