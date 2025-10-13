@@ -125,6 +125,9 @@ async def get_visible_stars(location: LocationData):
         from datetime import datetime
         dt = datetime.fromisoformat(location.datetime.replace('Z', '+00:00'))
         obs_time = ephem.Date(dt)
+        
+        # Famous bright stars with their coordinates
+        bright_stars = [
             {'name': 'Sirius', 'ra': 101.287, 'dec': -16.716, 'magnitude': -1.46},
             {'name': 'Canopus', 'ra': 95.988, 'dec': -52.696, 'magnitude': -0.74},
             {'name': 'Arcturus', 'ra': 213.915, 'dec': 19.182, 'magnitude': -0.05},
