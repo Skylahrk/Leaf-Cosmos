@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import SkyMap from './pages/SkyMap';
 import Planner from './pages/Planner';
 import CustomConstellations from './pages/CustomConstellations';
-import Planets3D from './pages/Planets3D';
+import Planets3DSimple from './pages/Planets3DSimple';
 import { Toaster } from '@/components/ui/sonner';
 
 function App() {
