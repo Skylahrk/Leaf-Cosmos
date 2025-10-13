@@ -23,32 +23,19 @@ function Planet({ position, size, color, name, speed, distance }) {
   });
 
   return (
-    <group>
-      <mesh
-        ref={meshRef}
-        position={position}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-      >
-        <sphereGeometry args={[size, 32, 32]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={hovered ? 0.5 : 0.2}
-        />
-      </mesh>
-      {hovered && (
-        <Text
-          position={[position[0], position[1] + size + 1, position[2]]}
-          fontSize={0.5}
-          color="white"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {name}
-        </Text>
-      )}
-    </group>
+    <mesh
+      ref={meshRef}
+      position={position}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      <sphereGeometry args={[size, 32, 32]} />
+      <meshStandardMaterial
+        color={color}
+        emissive={color}
+        emissiveIntensity={hovered ? 0.5 : 0.2}
+      />
+    </mesh>
   );
 }
 
