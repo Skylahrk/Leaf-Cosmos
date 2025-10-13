@@ -76,8 +76,10 @@ async def get_nasa_apod():
 async def get_planet_positions(location: LocationData):
     """Get current positions of planets for given location and time"""
     try:
-        # Parse datetime
-        obs_time = ephem.Date(location.datetime)
+        # Parse datetime - convert ISO format to datetime object
+        from datetime import datetime
+        dt = datetime.fromisoformat(location.datetime.replace('Z', '+00:00'))
+        obs_time = ephem.Date(dt)
         
         # Create observer
         observer = ephem.Observer()
