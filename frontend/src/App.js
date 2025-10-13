@@ -6,6 +6,7 @@ import SkyMap from './pages/SkyMap';
 import Planner from './pages/Planner';
 import CustomConstellations from './pages/CustomConstellations';
 import Planets3D from './pages/Planets3D';
+import { Toaster } from '@/components/ui/sonner';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/3d-view" element={<Planets3D />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </div>
   );
 }
