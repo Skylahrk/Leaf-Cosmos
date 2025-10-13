@@ -130,9 +130,9 @@ const Planets3D = () => {
         </div>
 
         <Card style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(120,140,255,0.2)', padding: '1rem', height: '700px' }} data-testid="3d-canvas-container">
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#fff', fontSize: '1.2rem' }}>
-            3D View Coming Soon - Three.js Integration in Progress
-          </div>
+          <Canvas camera={{ position: [0, 25, 50], fov: 60 }}>
+            <SolarSystemScene selectedPlanet={selectedPlanet} />
+          </Canvas>
         </Card>
 
         <Card style={{ marginTop: '2rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(120,140,255,0.2)', padding: '2rem' }} data-testid="3d-controls-info">
