@@ -593,6 +593,15 @@ const AdvancedSkyMap = () => {
                       style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(120,140,255,0.3)', color: '#fff' }}
                     />
                   </div>
+                
+                <Button
+                  onClick={fetchSkyData}
+                  disabled={loading}
+                  style={{ width: '100%', marginTop: '1rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff', fontWeight: '600' }}
+                  data-testid="update-sky-button"
+                >
+                  {loading ? 'Loading...' : 'Update Sky Map'}
+                </Button>
                 </Card>
               </TabsContent>
               
