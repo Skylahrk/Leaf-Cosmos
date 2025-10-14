@@ -88,27 +88,11 @@ const AdvancedSkyMap = () => {
     return () => clearInterval(interval);
   }, [isPlaying, speedMultiplier]);
 
-  // Update sky when time changes (debounced)
+  // Update sky when time changes (debounced) - only for major time changes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (currentTime && !isPlaying) {
-        fetchSkyData();
-      }
-    }, 500);
-    
-    return () => clearTimeout(timer);
-  }, [currentTime, latitude, longitude]);
-  
-  // Auto-fetch when playing
-  useEffect(() => {
-    if (isPlaying && currentTime) {
-      const interval = setInterval(() => {
-        fetchSkyData();
-      }, 5000); // Fetch every 5 seconds when playing
-      
-      return () => clearInterval(interval);
-    }
-  }, [isPlaying]);
+    // Don't auto-fetch, let user click Update button
+    drawAdvancedSkyMap(); // Just redraw the canvas
+  }, [currentTime]);
 
   // Draw canvas whenever data updates
   useEffect(() => {
