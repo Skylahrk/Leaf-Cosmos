@@ -63,7 +63,8 @@ const Home = () => {
           and plan your stargazing adventures with real-time astronomical data.
         </p>
         <div className="cta-buttons">
-          <Link to="/sky-map" className="btn-primary" data-testid="btn-explore-sky">Explore the Sky</Link>
+          <Link to="/advanced-sky" className="btn-primary" data-testid="btn-explore-sky">Advanced Sky Map</Link>
+          <Link to="/sky-map" className="btn-secondary" data-testid="btn-simple-sky">Simple Sky View</Link>
           <Link to="/planner" className="btn-secondary" data-testid="btn-plan-night">Plan Your Night</Link>
         </div>
       </section>
