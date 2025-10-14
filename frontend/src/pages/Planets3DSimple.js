@@ -8,8 +8,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 const Planets3DSimple = () => {
   const [selectedPlanet, setSelectedPlanet] = useState('all');
   const [rotation, setRotation] = useState(0);
+  const [showOrbits, setShowOrbits] = useState(true);
+  const [showLabels, setShowLabels] = useState(true);
+  const [moonPhase, setMoonPhase] = useState(0); // 0-1, 0=new, 0.5=full
 
   useEffect(() => {
+    // Calculate moon phase
+    const calculateMoonPhase = () => {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      
+      // Simplified moon phase calculation
+      const c = (year - 1900) * 12.3685;
+      const e = (c - Math.floor(c)) * 29.53059;
+      const phase = ((day + e + month * 30.6) % 29.53059) / 29.53059;
+      setMoonPhase(phase);
+    };
+    
+    calculateMoonPhase();
+    
     const interval = setInterval(() => {
       setRotation(prev => (prev + 0.5) % 360);
     }, 50);
