@@ -95,6 +95,9 @@ const Home = () => {
             <p className="feature-description">
               Create and save your own constellations by connecting stars in unique patterns.
             </p>
+            <Link to="/constellations-3d" style={{ marginTop: '1rem', display: 'inline-block', color: '#667eea', textDecoration: 'none', fontWeight: '600' }}>
+              View in 3D →
+            </Link>
           </div>
 
           <div className="feature-card" data-testid="feature-stargazing-planner">
