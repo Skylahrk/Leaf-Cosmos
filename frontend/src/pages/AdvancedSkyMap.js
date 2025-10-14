@@ -187,8 +187,8 @@ const AdvancedSkyMap = () => {
       };
 
       const [planetsRes, starsRes] = await Promise.all([
-        axios.post(`${API}/planets/positions`, locationData),
-        axios.post(`${API}/stars/visible`, locationData)
+        axios.post(`${API}/planets/positions`, locationData, { timeout: 10000 }),
+        axios.post(`${API}/stars/visible`, locationData, { timeout: 10000 })
       ]);
 
       setPlanets(planetsRes.data);
@@ -197,8 +197,13 @@ const AdvancedSkyMap = () => {
       const generatedStars = generateStarField(magnitudeLimit);
       setStars(generatedStars);
       setBrightStars(starsRes.data);
+      
+      console.log('Sky data loaded successfully');
     } catch (error) {
       console.error('Error fetching sky data:', error);
+      // Still generate stars even if API fails
+      const generatedStars = generateStarField(magnitudeLimit);
+      setStars(generatedStars);
     } finally {
       setLoading(false);
     }
