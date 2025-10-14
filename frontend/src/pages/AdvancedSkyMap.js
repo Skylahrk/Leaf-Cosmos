@@ -59,6 +59,10 @@ const AdvancedSkyMap = () => {
     fetchConstellations();
     fetchDeepSkyObjects();
     initSatelliteTracking();
+    
+    // Initial sky data fetch
+    fetchSkyData();
+    
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
