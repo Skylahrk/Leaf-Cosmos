@@ -16,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sky-map" element={<SkyMap />} />
+          <Route path="/advanced-sky" element={<AdvancedSkyMap />} />
           <Route path="/planner" element={<Planner />} />
           <Route path="/constellations" element={<CustomConstellations />} />
           <Route path="/3d-view" element={<Planets3DSimple />} />
