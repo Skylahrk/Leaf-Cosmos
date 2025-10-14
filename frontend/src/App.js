@@ -6,6 +6,7 @@ import SkyMap from './pages/SkyMap';
 import AdvancedSkyMap from './pages/AdvancedSkyMap';
 import Planner from './pages/Planner';
 import CustomConstellations from './pages/CustomConstellations';
+import Constellations3D from './pages/Constellations3D';
 import Planets3DSimple from './pages/Planets3DSimple';
 import { Toaster } from '@/components/ui/sonner';
 
