@@ -3,6 +3,7 @@ import '@/App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import SkyMap from './pages/SkyMap';
+import AdvancedSkyMap from './pages/AdvancedSkyMap';
 import Planner from './pages/Planner';
 import CustomConstellations from './pages/CustomConstellations';
 import Planets3DSimple from './pages/Planets3DSimple';
