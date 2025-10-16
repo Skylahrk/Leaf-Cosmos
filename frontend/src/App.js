@@ -17,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <ViewerAnalytics />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sky-map" element={<SkyMap />} />
@@ -25,7 +26,9 @@ function App() {
           <Route path="/constellations" element={<CustomConstellations />} />
           <Route path="/constellations-3d" element={<Constellations3D />} />
           <Route path="/3d-view" element={<Planets3DSimple />} />
+          <Route path="/solar-system" element={<EnhancedSolarSystem />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
       <Toaster />
     </div>
