@@ -60,6 +60,7 @@ body::after {
 .App {
   min-height: 100vh;
   position: relative;
+  z-index: 1;
 }
 
 /* Animated starfield background */
