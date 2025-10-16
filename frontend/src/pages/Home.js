@@ -110,10 +110,13 @@ const Home = () => {
 
           <div className="feature-card" data-testid="feature-3d-view">
             <div className="feature-icon"><Telescope size={48} /></div>
-            <h3 className="feature-title">3D Visualization</h3>
+            <h3 className="feature-title">3D Solar System</h3>
             <p className="feature-description">
-              Experience planets and celestial bodies in stunning 3D with interactive controls.
+              Experience planets with Saturn's rings, asteroid belt, temperature data, and ancient astronomy facts.
             </p>
+            <Link to="/solar-system" style={{ marginTop: '1rem', display: 'inline-block', color: '#667eea', textDecoration: 'none', fontWeight: '600' }}>
+              Enhanced View →
+            </Link>
           </div>
 
           <div className="feature-card" data-testid="feature-multi-calendar">
