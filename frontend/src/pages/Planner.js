@@ -261,7 +261,7 @@ const Planner = () => {
             <SelectContent style={{ background: '#1a1f3a', border: '1px solid rgba(120,140,255,0.3)' }}>
               <SelectItem value="western">Western (Gregorian)</SelectItem>
               <SelectItem value="chinese">Chinese</SelectItem>
-              <SelectItem value="islamic">Islamic (Hijri)</SelectItem>
+              <SelectItem value="indian">Indian (Vikram Samvat)</SelectItem>
               <SelectItem value="hebrew">Hebrew</SelectItem>
               <SelectItem value="julian">Julian Day</SelectItem>
             </SelectContent>
