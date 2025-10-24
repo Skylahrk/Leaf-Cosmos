@@ -183,12 +183,46 @@ const AdvancedSkyMap = () => {
 
       setPlanets(planetsRes.data);
       
+      // Ensure we have bright stars - add comprehensive list if API doesn't provide
+      let starsData = starsRes.data || [];
+      
+      // Add additional bright stars to ensure constellations are visible
+      const additionalStars = [
+        { name: 'Dubhe', ra: 165.93, dec: 61.75, magnitude: 1.79, azimuth: 165, altitude: 50 },
+        { name: 'Merak', ra: 165.46, dec: 56.38, magnitude: 2.37, azimuth: 170, altitude: 48 },
+        { name: 'Phecda', ra: 178.46, dec: 53.69, magnitude: 2.44, azimuth: 175, altitude: 46 },
+        { name: 'Megrez', ra: 183.86, dec: 57.03, magnitude: 3.31, azimuth: 180, altitude: 47 },
+        { name: 'Alioth', ra: 193.51, dec: 55.96, magnitude: 1.77, azimuth: 185, altitude: 48 },
+        { name: 'Bellatrix', ra: 81.28, dec: 6.35, magnitude: 1.64, azimuth: 85, altitude: 30 },
+        { name: 'Saiph', ra: 86.94, dec: -9.67, magnitude: 2.06, azimuth: 90, altitude: 25 },
+        { name: 'Caph', ra: 2.29, dec: 59.15, magnitude: 2.27, azimuth: 5, altitude: 55 },
+        { name: 'Schedar', ra: 10.13, dec: 56.54, magnitude: 2.23, azimuth: 15, altitude: 53 },
+        { name: 'Navi', ra: 14.18, dec: 60.72, magnitude: 2.47, azimuth: 20, altitude: 57 },
+        { name: 'Ruchbah', ra: 21.45, dec: 60.24, magnitude: 2.68, azimuth: 25, altitude: 56 },
+        { name: 'Segin', ra: 25.92, dec: 63.67, magnitude: 3.38, azimuth: 30, altitude: 60 },
+        { name: 'Algieba', ra: 154.99, dec: 19.84, magnitude: 2.08, azimuth: 155, altitude: 35 },
+        { name: 'Denebola', ra: 177.72, dec: 14.57, magnitude: 2.14, azimuth: 178, altitude: 32 },
+        { name: 'Albireo', ra: 292.68, dec: 27.96, magnitude: 3.08, azimuth: 290, altitude: 40 },
+        { name: 'Castor', ra: 113.65, dec: 31.89, magnitude: 1.58, azimuth: 115, altitude: 42 },
+        { name: 'Rigil Kentaurus', ra: 219.90, dec: -60.84, magnitude: -0.01, azimuth: 220, altitude: 15 }
+      ];
+      
+      // Merge with existing stars, avoiding duplicates
+      const starNames = new Set(starsData.map(s => s.name));
+      additionalStars.forEach(star => {
+        if (!starNames.has(star.name)) {
+          starsData.push(star);
+        }
+      });
+      
+      setBrightStars(starsData);
+      
       // Generate more stars based on magnitude limit
       const generatedStars = generateStarField(magnitudeLimit);
       setStars(generatedStars);
-      setBrightStars(starsRes.data);
       
       console.log('Sky data loaded successfully');
+      console.log(`Loaded ${starsData.length} bright stars for constellations`);
     } catch (error) {
       console.error('Error fetching sky data:', error);
       // Still generate stars even if API fails
