@@ -124,7 +124,9 @@ const AdvancedSkyMap = () => {
       { name: 'M1', type: 'Nebula', ra: 83.63, dec: 22.01, mag: 8.4, size: 6, constellation: 'Taurus' },
       { name: 'M27', type: 'Nebula', ra: 299.90, dec: 22.72, mag: 7.5, size: 8, constellation: 'Vulpecula' },
       { name: 'M33', type: 'Galaxy', ra: 23.46, dec: 30.66, mag: 5.7, size: 73, constellation: 'Triangulum' },
-      { name: 'M81', type: 'Galaxy', ra: 148.89, dec: 69.07, mag: 6.9, size: 27, constellation: 'Ursa Major' }
+      { name: 'M81', type: 'Galaxy', ra: 148.89, dec: 69.07, mag: 6.9, size: 27, constellation: 'Ursa Major' },
+      { name: 'M44', type: 'Cluster', ra: 130.10, dec: 19.98, mag: 3.7, size: 95, constellation: 'Cancer' },
+      { name: 'M8', type: 'Nebula', ra: 270.93, dec: -24.38, mag: 6.0, size: 90, constellation: 'Sagittarius' }
     ];
     setDeepSkyObjects(messierObjects);
   };
