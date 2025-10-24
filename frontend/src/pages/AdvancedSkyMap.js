@@ -462,26 +462,175 @@ const AdvancedSkyMap = () => {
     ctx.restore();
   };
 
+  const constellationLines = {
+    'Orion': {
+      name: 'Orion',
+      stars: ['Betelgeuse', 'Bellatrix', 'Rigel', 'Saiph'],
+      lines: [
+        ['Betelgeuse', 'Bellatrix'],
+        ['Betelgeuse', 'Rigel'],
+        ['Bellatrix', 'Rigel'],
+        ['Rigel', 'Saiph']
+      ]
+    },
+    'Ursa Major': {
+      name: 'Ursa Major',
+      stars: ['Dubhe', 'Merak', 'Phecda', 'Megrez', 'Alioth'],
+      lines: [
+        ['Dubhe', 'Merak'],
+        ['Merak', 'Phecda'],
+        ['Phecda', 'Megrez'],
+        ['Megrez', 'Alioth']
+      ]
+    },
+    'Cassiopeia': {
+      name: 'Cassiopeia',
+      stars: ['Caph', 'Schedar', 'Navi', 'Ruchbah', 'Segin'],
+      lines: [
+        ['Caph', 'Schedar'],
+        ['Schedar', 'Navi'],
+        ['Navi', 'Ruchbah'],
+        ['Ruchbah', 'Segin']
+      ]
+    },
+    'Leo': {
+      name: 'Leo',
+      stars: ['Regulus', 'Denebola', 'Algieba'],
+      lines: [
+        ['Regulus', 'Algieba'],
+        ['Regulus', 'Denebola']
+      ]
+    },
+    'Cygnus': {
+      name: 'Cygnus',
+      stars: ['Deneb', 'Albireo'],
+      lines: [
+        ['Deneb', 'Albireo']
+      ]
+    },
+    'Scorpius': {
+      name: 'Scorpius',
+      stars: ['Antares'],
+      lines: []
+    },
+    'Lyra': {
+      name: 'Lyra',
+      stars: ['Vega'],
+      lines: []
+    },
+    'Aquila': {
+      name: 'Aquila',
+      stars: ['Altair'],
+      lines: []
+    },
+    'Taurus': {
+      name: 'Taurus',
+      stars: ['Aldebaran'],
+      lines: []
+    },
+    'Gemini': {
+      name: 'Gemini',
+      stars: ['Pollux', 'Castor'],
+      lines: [
+        ['Pollux', 'Castor']
+      ]
+    },
+    'Virgo': {
+      name: 'Virgo',
+      stars: ['Spica'],
+      lines: []
+    },
+    'Bootes': {
+      name: 'Bootes',
+      stars: ['Arcturus'],
+      lines: []
+    },
+    'Canis Major': {
+      name: 'Canis Major',
+      stars: ['Sirius'],
+      lines: []
+    },
+    'Canis Minor': {
+      name: 'Canis Minor',
+      stars: ['Procyon'],
+      lines: []
+    },
+    'Centaurus': {
+      name: 'Centaurus',
+      stars: ['Rigil Kentaurus'],
+      lines: []
+    },
+    'Sagittarius': {
+      name: 'Sagittarius',
+      stars: [],
+      lines: []
+    }
+  };
+
   const drawConstellationLines = (ctx, width, height) => {
+    if (!brightStars || brightStars.length === 0) return;
+    
     ctx.save();
-    ctx.strokeStyle = 'rgba(102, 126, 234, 0.4)';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(147, 112, 219, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
     
-    // Sample constellation lines (simplified)
-    const orionLines = [
-      [{az: 90, alt: 30}, {az: 95, alt: 35}],
-      [{az: 95, alt: 35}, {az: 100, alt: 30}],
-    ];
+    // Create a map of star names to their screen positions
+    const starPositions = {};
+    brightStars.forEach(star => {
+      if (star.altitude > 0) {
+        const x = (star.azimuth / 360) * width;
+        const y = height - ((star.altitude / 90) * height);
+        starPositions[star.name] = { x, y, visible: true };
+      }
+    });
     
-    orionLines.forEach(line => {
-      ctx.beginPath();
-      const x1 = (line[0].az / 360) * width;
-      const y1 = height - ((line[0].alt / 90) * height);
-      const x2 = (line[1].az / 360) * width;
-      const y2 = height - ((line[1].alt / 90) * height);
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
+    // Draw each constellation
+    Object.values(constellationLines).forEach(constellation => {
+      // Check if constellation is visible (at least 2 stars above horizon)
+      const visibleStars = constellation.stars.filter(starName => 
+        starPositions[starName] && starPositions[starName].visible
+      );
+      
+      if (visibleStars.length >= 1) {
+        // Draw constellation lines
+        constellation.lines.forEach(line => {
+          const star1Name = line[0];
+          const star2Name = line[1];
+          
+          if (starPositions[star1Name] && starPositions[star2Name]) {
+            const pos1 = starPositions[star1Name];
+            const pos2 = starPositions[star2Name];
+            
+            ctx.beginPath();
+            ctx.moveTo(pos1.x, pos1.y);
+            ctx.lineTo(pos2.x, pos2.y);
+            ctx.stroke();
+          }
+        });
+        
+        // Draw constellation name at centroid
+        if (visibleStars.length > 0) {
+          let sumX = 0, sumY = 0, count = 0;
+          visibleStars.forEach(starName => {
+            if (starPositions[starName]) {
+              sumX += starPositions[starName].x;
+              sumY += starPositions[starName].y;
+              count++;
+            }
+          });
+          
+          if (count > 0) {
+            const centerX = sumX / count;
+            const centerY = sumY / count;
+            
+            ctx.fillStyle = 'rgba(221, 160, 221, 0.8)';
+            ctx.font = 'bold 14px Space Grotesk';
+            ctx.textAlign = 'center';
+            ctx.fillText(constellation.name, centerX, centerY - 15);
+          }
+        }
+      }
     });
     
     ctx.restore();
