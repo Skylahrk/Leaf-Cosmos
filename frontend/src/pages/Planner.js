@@ -114,10 +114,12 @@ const Planner = () => {
         // Simplified Chinese calendar representation
         const chineseYear = d.getFullYear() + 2637; // Approximate
         return `Chinese Year ${chineseYear}, ${format(d, 'MM-dd')}`;
-      case 'islamic':
-        // Simplified Islamic calendar representation
-        const islamicYear = Math.floor((d.getFullYear() - 622) * 1.030684);
-        return `Islamic Year ${islamicYear}, ${format(d, 'MM-dd')}`;
+      case 'indian':
+        // Indian Vikram Samvat calendar (starts 57 BCE)
+        const vikramYear = d.getFullYear() + 57;
+        const indianMonths = ['Chaitra', 'Vaisakha', 'Jyeshtha', 'Ashadha', 'Shravana', 'Bhadrapada', 'Ashwin', 'Kartik', 'Margashirsha', 'Pausha', 'Magha', 'Phalguna'];
+        const monthIndex = (d.getMonth() + 9) % 12; // Approximate conversion
+        return `Vikram Samvat ${vikramYear}, ${indianMonths[monthIndex]} ${d.getDate()}`;
       case 'hebrew':
         // Simplified Hebrew calendar representation
         const hebrewYear = d.getFullYear() + 3760;
