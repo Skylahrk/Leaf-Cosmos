@@ -60,6 +60,10 @@ const AdvancedSkyMap = () => {
     fetchDeepSkyObjects();
     initSatelliteTracking();
     
+    // Generate initial star field immediately
+    const initialStars = generateStarField(magnitudeLimit);
+    setStars(initialStars);
+    
     // Initial sky data fetch
     fetchSkyData();
     
