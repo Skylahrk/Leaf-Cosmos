@@ -41,7 +41,17 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div style={{
+      minHeight: '100vh',
+      background: `
+        linear-gradient(135deg, rgba(26, 10, 62, 0.3) 0%, rgba(45, 27, 105, 0.2) 50%, rgba(74, 44, 125, 0.1) 100%),
+        url('https://customer-assets.emergentagent.com/job_leaf-cosmos/artifacts/u6eey454_img-cosmos.jpg')
+      `,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      position: 'relative'
+    }}>
       <div className="starfield"></div>
       
       {/* Navbar */}
