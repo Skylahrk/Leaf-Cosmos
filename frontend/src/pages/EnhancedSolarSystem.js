@@ -8,13 +8,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 
 const EnhancedSolarSystem = () => {
   const [selectedPlanet, setSelectedPlanet] = useState('all');
-  const [rotation, setRotation] = useState(0);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [timeSpeed, setTimeSpeed] = useState(1); // Days per second
   const [tilt] = useState(60); // 60° tilt as requested
   const [showOrbits, setShowOrbits] = useState(true);
   const [showAsteroidBelt, setShowAsteroidBelt] = useState(true);
-  const [moonPhase, setMoonPhase] = useState(0);
   const [selectedInfo, setSelectedInfo] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
+
+  // Reference epoch: J2000.0 (January 1, 2000, 12:00 TT)
+  const J2000 = new Date('2000-01-01T12:00:00Z');
 
   // Ancient astronomy facts from Sūrya Siddhānta and Vaimānika Shāstra
   const ancientFacts = [
@@ -35,52 +39,101 @@ const EnhancedSolarSystem = () => {
     }
   ];
 
+  // Real astronomical data for planets
   const planets = [
     { 
-      name: 'Mercury', size: 30, color: '#8C7853', distance: 80, speed: 0.04,
+      name: 'Mercury', 
+      size: 30, 
+      color: '#8C7853', 
+      distance: 80, 
+      orbitalPeriod: 87.97, // Earth days
+      rotationPeriod: 58.65, // Earth days
+      orbitSpeed: 47.87, // km/s
       temp: { day: 430, night: -180, avg: 167 },
       facts: ["Smallest planet", "No atmosphere", "Surface covered in craters", "One day = 176 Earth days"],
       atmosphere: "None - Solar wind stripped away"
     },
     { 
-      name: 'Venus', size: 45, color: '#FFC649', distance: 120, speed: 0.03,
+      name: 'Venus', 
+      size: 45, 
+      color: '#FFC649', 
+      distance: 120, 
+      orbitalPeriod: 224.70,
+      rotationPeriod: -243.02, // Negative = retrograde rotation
+      orbitSpeed: 35.02,
       temp: { day: 465, night: 465, avg: 465 },
       facts: ["Hottest planet", "Thick CO₂ atmosphere", "Rotates backwards", "Day longer than year"],
       atmosphere: "96.5% CO₂, extreme greenhouse effect"
     },
     { 
-      name: 'Earth', size: 48, color: '#4A90E2', distance: 160, speed: 0.02,
+      name: 'Earth', 
+      size: 48, 
+      color: '#4A90E2', 
+      distance: 160, 
+      orbitalPeriod: 365.26,
+      rotationPeriod: 1.0,
+      orbitSpeed: 29.78,
       temp: { day: 58, night: -88, avg: 15 },
       facts: ["Only known planet with life", "71% water coverage", "Protective magnetic field", "One moon"],
       atmosphere: "78% N₂, 21% O₂, 1% other gases"
     },
     { 
-      name: 'Mars', size: 35, color: '#E27B58', distance: 200, speed: 0.018,
+      name: 'Mars', 
+      size: 35, 
+      color: '#E27B58', 
+      distance: 200, 
+      orbitalPeriod: 686.98,
+      rotationPeriod: 1.03,
+      orbitSpeed: 24.07,
       temp: { day: 20, night: -73, avg: -63 },
       facts: ["Red due to iron oxide", "Olympus Mons - largest volcano", "Polar ice caps", "Two moons"],
       atmosphere: "95% CO₂, thin atmosphere, dust storms"
     },
     { 
-      name: 'Jupiter', size: 90, color: '#C88B3A', distance: 280, speed: 0.01,
+      name: 'Jupiter', 
+      size: 90, 
+      color: '#C88B3A', 
+      distance: 280, 
+      orbitalPeriod: 4332.59,
+      rotationPeriod: 0.41,
+      orbitSpeed: 13.07,
       temp: { day: -108, night: -108, avg: -108 },
       facts: ["Largest planet", "Great Red Spot storm", "79 known moons", "Strong radiation belts"],
       atmosphere: "90% H₂, 10% He, ammonia clouds"
     },
     { 
-      name: 'Saturn', size: 80, color: '#FAD5A5', distance: 360, speed: 0.009,
+      name: 'Saturn', 
+      size: 80, 
+      color: '#FAD5A5', 
+      distance: 360, 
+      orbitalPeriod: 10759.22,
+      rotationPeriod: 0.45,
+      orbitSpeed: 9.69,
       temp: { day: -138, night: -138, avg: -138 },
       facts: ["Iconic ring system", "82 known moons", "Lowest density", "Hexagonal storm at north pole"],
       atmosphere: "96% H₂, 3% He, methane traces",
       hasRings: true
     },
     { 
-      name: 'Uranus', size: 60, color: '#4FD0E7', distance: 430, speed: 0.006,
+      name: 'Uranus', 
+      size: 60, 
+      color: '#4FD0E7', 
+      distance: 430, 
+      orbitalPeriod: 30688.5,
+      rotationPeriod: -0.72, // Retrograde
+      orbitSpeed: 6.81,
       temp: { day: -197, night: -197, avg: -197 },
       facts: ["Rotates on its side", "Coldest planetary atmosphere", "13 known rings", "27 known moons"],
       atmosphere: "83% H₂, 15% He, 2% methane (blue color)"
     },
     { 
-      name: 'Neptune', size: 58, color: '#4166F5', distance: 490, speed: 0.005,
+      name: 'Neptune', 
+      size: 58, 
+      color: '#4166F5', 
+      distance: 490, 
+      orbitalPeriod: 60182,
+      rotationPeriod: 0.67,
+      orbitSpeed: 5.43,
       temp: { day: -201, night: -201, avg: -201 },
       facts: ["Windiest planet", "Supersonic winds up to 2,100 km/h", "14 known moons", "Dark spots (storms)"],
       atmosphere: "80% H₂, 19% He, 1.5% methane"
@@ -105,38 +158,62 @@ const EnhancedSolarSystem = () => {
     ]
   };
 
+  // Time control
   useEffect(() => {
-    calculateMoonPhase();
+    if (!isPlaying) return;
+    
     const interval = setInterval(() => {
-      setRotation(prev => (prev + 0.5) % 360);
-    }, 50);
+      setCurrentTime(prev => {
+        const newTime = new Date(prev.getTime() + (timeSpeed * 24 * 60 * 60 * 1000)); // Add days
+        return newTime;
+      });
+    }, 100); // Update every 100ms for smooth animation
+    
     return () => clearInterval(interval);
-  }, []);
+  }, [isPlaying, timeSpeed]);
 
-  const calculateMoonPhase = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const c = (year - 1900) * 12.3685;
-    const e = (c - Math.floor(c)) * 29.53059;
-    const phase = ((day + e + month * 30.6) % 29.53059) / 29.53059;
-    setMoonPhase(phase);
+  const getDaysSinceJ2000 = (date) => {
+    return (date.getTime() - J2000.getTime()) / (1000 * 60 * 60 * 24);
   };
 
-  const getPlanetPosition = (distance, speed) => {
-    const angle = (rotation * speed * Math.PI) / 180;
+  const getPlanetPosition = (planet) => {
+    const daysSinceEpoch = getDaysSinceJ2000(currentTime);
+    
+    // Calculate orbital position (mean anomaly simplified)
+    const orbitalAngle = (daysSinceEpoch / planet.orbitalPeriod) * 360;
+    const angleRad = (orbitalAngle * Math.PI) / 180;
+    
+    // Calculate rotation
+    const rotationAngle = (daysSinceEpoch / Math.abs(planet.rotationPeriod)) * 360;
+    
     // Apply 60° tilt for better 3D perspective
     const tiltRad = (tilt * Math.PI) / 180;
-    const x = 400 + Math.cos(angle) * distance;
-    const y = 350 + Math.sin(angle) * distance * Math.cos(tiltRad);
-    const z = Math.sin(angle) * distance * Math.sin(tiltRad);
-    return { x, y, z, scale: 1 - (z / 1000) };
+    const x = 400 + Math.cos(angleRad) * planet.distance;
+    const y = 350 + Math.sin(angleRad) * planet.distance * Math.cos(tiltRad);
+    const z = Math.sin(angleRad) * planet.distance * Math.sin(tiltRad);
+    
+    return { 
+      x, 
+      y, 
+      z, 
+      scale: 1 - (z / 1000),
+      rotationAngle: rotationAngle % 360,
+      orbitalAngle: orbitalAngle % 360
+    };
   };
 
   const handlePlanetClick = (planet) => {
     setSelectedInfo(planet);
     setShowDialog(true);
+  };
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const resetToNow = () => {
+    setCurrentTime(new Date());
+    setIsPlaying(true);
   };
 
   const filteredPlanets = selectedPlanet === 'all'
