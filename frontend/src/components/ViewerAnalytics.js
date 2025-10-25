@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Clock } from 'lucide-react';
+import { Users, Clock, ChevronUp, ChevronDown } from 'lucide-react';
 
 const ViewerAnalytics = () => {
   const [viewCount, setViewCount] = useState(0);
   const [startTime] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isMinimized, setIsMinimized] = useState(() => {
+    const saved = localStorage.getItem('analytics_minimized');
+    return saved === 'true';
+  });
 
   useEffect(() => {
     // Load view count from localStorage
@@ -28,25 +32,81 @@ const ViewerAnalytics = () => {
     return `${minutes}m ${seconds}s`;
   };
 
+  const toggleMinimize = () => {
+    const newState = !isMinimized;
+    setIsMinimized(newState);
+    localStorage.setItem('analytics_minimized', newState.toString());
+  };
+
+  if (isMinimized) {
+    return (
+      <div 
+        onClick={toggleMinimize}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '20px',
+          background: 'rgba(20, 10, 50, 0.9)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(180, 160, 255, 0.3)',
+          borderRadius: '12px',
+          padding: '0.75rem 1rem',
+          zIndex: 1000,
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+        onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+      >
+        <Users size={16} style={{ color: '#9370DB' }} />
+        <span style={{ color: '#fff', fontSize: '0.9rem', fontWeight: '600' }}>{viewCount}</span>
+        <ChevronUp size={16} style={{ color: '#DDA0DD' }} />
+      </div>
+    );
+  }
+
   return (
     <div style={{
       position: 'fixed',
-      top: '20px',
-      right: '20px',
-      background: 'rgba(20, 10, 50, 0.8)',
+      bottom: '20px',
+      left: '20px',
+      background: 'rgba(20, 10, 50, 0.9)',
       backdropFilter: 'blur(10px)',
       border: '1px solid rgba(180, 160, 255, 0.3)',
       borderRadius: '12px',
       padding: '1rem',
       zIndex: 1000,
-      minWidth: '200px'
+      minWidth: '200px',
+      boxShadow: '0 4px 20px rgba(147, 112, 219, 0.2)'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-        <Users size={18} style={{ color: '#9370DB' }} />
-        <div>
-          <div style={{ color: '#DDA0DD', fontSize: '0.85rem' }}>Total Views</div>
-          <div style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 'bold' }}>{viewCount.toLocaleString()}</div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Users size={18} style={{ color: '#9370DB' }} />
+          <div>
+            <div style={{ color: '#DDA0DD', fontSize: '0.85rem' }}>Total Views</div>
+            <div style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 'bold' }}>{viewCount.toLocaleString()}</div>
+          </div>
         </div>
+        <button
+          onClick={toggleMinimize}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            color: '#DDA0DD',
+            padding: '0.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            transition: 'color 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#DDA0DD'}
+        >
+          <ChevronDown size={20} />
+        </button>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', paddingTop: '0.75rem', borderTop: '1px solid rgba(180, 160, 255, 0.2)' }}>
         <Clock size={18} style={{ color: '#9370DB' }} />
