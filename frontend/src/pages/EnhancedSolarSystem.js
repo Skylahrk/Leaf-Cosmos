@@ -334,7 +334,7 @@ const EnhancedSolarSystem = () => {
 
             {/* Planets */}
             {filteredPlanets.map(planet => {
-              const pos = getPlanetPosition(planet.distance, planet.speed);
+              const pos = getPlanetPosition(planet);
               return (
                 <div key={planet.name}>
                   {showOrbits && (
@@ -361,13 +361,13 @@ const EnhancedSolarSystem = () => {
                       borderRadius: '50%',
                       background: `radial-gradient(circle at 30% 30%, ${planet.color}dd, ${planet.color})`,
                       boxShadow: `0 0 ${20 * pos.scale}px ${planet.color}88`,
-                      transform: 'translate(-50%, -50%)',
+                      transform: `translate(-50%, -50%) rotate(${pos.rotationAngle}deg)`,
                       transition: 'all 0.1s linear',
                       zIndex: Math.floor((1 - pos.z / 1000) * 100),
                       cursor: 'pointer',
                       border: '2px solid rgba(255,255,255,0.3)'
                     }}
-                    title={`Click for ${planet.name} info`}
+                    title={`${planet.name} - Orbital: ${pos.orbitalAngle.toFixed(1)}°`}
                   >
                     {/* Saturn's Rings */}
                     {planet.hasRings && (
