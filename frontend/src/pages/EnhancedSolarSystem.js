@@ -222,8 +222,8 @@ const EnhancedSolarSystem = () => {
 
   return (
     <div style={{ minHeight: '100vh', padding: '2rem', position: 'relative', zIndex: 1 }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ maxWidth: '1600px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <Link to="/" data-testid="back-button">
               <Button variant="outline" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(180,160,255,0.4)', color: '#e0e6ff' }}>
@@ -231,24 +231,64 @@ const EnhancedSolarSystem = () => {
               </Button>
             </Link>
             <h1 style={{ fontSize: '2.5rem', fontWeight: '700', color: '#fff', fontFamily: 'Orbitron' }}>
-              Enhanced Solar System
+              Real-Time Solar System
             </h1>
           </div>
 
-          <div style={{ width: '250px' }}>
-            <Select value={selectedPlanet} onValueChange={setSelectedPlanet}>
-              <SelectTrigger style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(180,160,255,0.4)', color: '#fff' }}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent style={{ background: '#2d1b69', border: '1px solid rgba(180,160,255,0.4)' }}>
-                <SelectItem value="all">All Planets</SelectItem>
-                {planets.map(p => (
-                  <SelectItem key={p.name.toLowerCase()} value={p.name.toLowerCase()}>{p.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ width: '250px' }}>
+              <Select value={selectedPlanet} onValueChange={setSelectedPlanet}>
+                <SelectTrigger style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(180,160,255,0.4)', color: '#fff' }}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent style={{ background: '#2d1b69', border: '1px solid rgba(180,160,255,0.4)' }}>
+                  <SelectItem value="all">All Planets</SelectItem>
+                  {planets.map(p => (
+                    <SelectItem key={p.name.toLowerCase()} value={p.name.toLowerCase()}>{p.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
+
+        {/* Time Machine Controls */}
+        <Card style={{ background: 'rgba(20, 10, 50, 0.7)', border: '1px solid rgba(180,160,255,0.3)', padding: '1.5rem', marginBottom: '2rem', backdropFilter: 'blur(10px)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <div style={{ color: '#DDA0DD', fontSize: '0.9rem', marginBottom: '0.25rem' }}>Simulation Date & Time</div>
+              <div style={{ color: '#fff', fontSize: '1.3rem', fontFamily: 'monospace', fontWeight: '600' }}>
+                {currentTime.toLocaleString()}
+              </div>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <Button 
+                onClick={handlePlayPause}
+                style={{ background: isPlaying ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)', color: '#fff' }}
+              >
+                {isPlaying ? 'Pause' : 'Play'}
+              </Button>
+              
+              <Button onClick={resetToNow} variant="outline" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(180,160,255,0.3)', color: '#fff' }}>
+                Reset to Now
+              </Button>
+              
+              <Select value={timeSpeed.toString()} onValueChange={(v) => setTimeSpeed(parseFloat(v))}>
+                <SelectTrigger style={{ width: '180px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(180,160,255,0.3)', color: '#fff' }}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent style={{ background: '#2d1b69', border: '1px solid rgba(180,160,255,0.4)' }}>
+                  <SelectItem value="0.1">0.1x Speed (Real-time)</SelectItem>
+                  <SelectItem value="1">1 Day/sec</SelectItem>
+                  <SelectItem value="7">1 Week/sec</SelectItem>
+                  <SelectItem value="30">1 Month/sec</SelectItem>
+                  <SelectItem value="365">1 Year/sec</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </Card>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
           {/* Solar System Canvas */}
