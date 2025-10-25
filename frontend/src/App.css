@@ -9,16 +9,18 @@
 body {
   font-family: 'Space Grotesk', sans-serif;
   background: 
-    linear-gradient(135deg, rgba(26, 10, 62, 0.1) 0%, rgba(45, 27, 105, 0.05) 50%, transparent 100%),
+    linear-gradient(135deg, rgba(26, 10, 62, 0.15) 0%, rgba(45, 27, 105, 0.1) 50%, rgba(74, 44, 125, 0.05) 100%),
     url('https://customer-assets.emergentagent.com/job_leaf-cosmos/artifacts/6w0jnu11_universe-spiral-3840x2160-10972.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  background-blend-mode: screen;
   color: #e0e6ff;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+  filter: brightness(1.2);
 }
 
 body::before {
