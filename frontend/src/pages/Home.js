@@ -137,6 +137,28 @@ const Home = () => {
               View astronomical events in Western, Chinese, Islamic, Hebrew, and other calendar systems.
             </p>
           </div>
+
+          <div className="feature-card" data-testid="feature-satellite-tracking">
+            <div className="feature-icon"><Satellite size={48} /></div>
+            <h3 className="feature-title">Satellite Tracking</h3>
+            <p className="feature-description">
+              Track ISS, Starlink, GPS satellites in real-time with pass predictions and live position updates.
+            </p>
+            <Link to="/satellites" style={{ marginTop: '1rem', display: 'inline-block', color: '#667eea', textDecoration: 'none', fontWeight: '600' }}>
+              Track Satellites →
+            </Link>
+          </div>
+
+          <div className="feature-card" data-testid="feature-eclipse-predictions">
+            <div className="feature-icon"><Sun size={48} /></div>
+            <h3 className="feature-title">Eclipse Predictions</h3>
+            <p className="feature-description">
+              View upcoming solar and lunar eclipses through 2027 with precise timing and countdown timers.
+            </p>
+            <Link to="/eclipses" style={{ marginTop: '1rem', display: 'inline-block', color: '#667eea', textDecoration: 'none', fontWeight: '600' }}>
+              View Eclipses →
+            </Link>
+          </div>
         </div>
       </section>
 
