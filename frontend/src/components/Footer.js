@@ -34,17 +34,27 @@ const Footer = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E6E6FA' }}>
               <Mail size={18} style={{ color: '#9370DB' }} />
-              <a href="mailto:creator@planetarium.space" style={{ color: '#E6E6FA', textDecoration: 'none' }}>
-                creator@planetarium.space
+              <a href="mailto:cosmicsylahrk@gmail.com" style={{ color: '#E6E6FA', textDecoration: 'none' }}>
+                cosmicsylahrk@gmail.com
               </a>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', color: '#E6E6FA' }}>
               <MapPin size={18} style={{ color: '#9370DB', marginTop: '0.2rem' }} />
               <div style={{ fontSize: '0.9rem', lineHeight: '1.4' }}>
-                Research Institute of Astronomical Sciences<br />
-                Observatory Lane, Cosmic City<br />
-                Universe 12345
+                Bengaluru, India
               </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E6E6FA' }}>
+              <Github size={18} style={{ color: '#9370DB' }} />
+              <a href="https://github.com/Skylahrk" target="_blank" rel="noopener noreferrer" style={{ color: '#E6E6FA', textDecoration: 'none' }}>
+                github.com/Skylahrk
+              </a>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E6E6FA' }}>
+              <Linkedin size={18} style={{ color: '#9370DB' }} />
+              <a href="https://www.linkedin.com/in/nitya-m" target="_blank" rel="noopener noreferrer" style={{ color: '#E6E6FA', textDecoration: 'none' }}>
+                linkedin.com/in/nitya-m
+              </a>
             </div>
           </div>
         </div>
