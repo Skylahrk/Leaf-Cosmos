@@ -84,10 +84,6 @@ const Footer = () => {
             <div>API Documentation</div>
             <div>Data Sources</div>
             <div>Ancient Texts References</div>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-              <Github size={20} style={{ cursor: 'pointer', color: '#9370DB' }} />
-              <Linkedin size={20} style={{ cursor: 'pointer', color: '#9370DB' }} />
-            </div>
           </div>
         </div>
       </div>
