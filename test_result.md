@@ -193,6 +193,42 @@ frontend:
           agent: "main"
           comment: "Existing feature - not modified in this session"
 
+  - task: "Satellite Tracker Page"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/SatelliteTracker.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Created comprehensive satellite tracking page with: satellite group selection (Space Stations, Starlink, GPS, Galileo, Brightest), real-time position display with lat/lon/altitude, visibility status, auto-refresh (5sec intervals), pass predictions for next 7 days. Visual testing shows page working correctly with ISS data loading successfully."
+
+  - task: "Eclipse Predictions Page"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/EclipsePredictions.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Created beautiful eclipse predictions page with: next eclipse countdown banner, lunar/solar eclipse tabs, eclipse cards with dates/times/types, countdown timers for upcoming eclipses, visibility information. Visual testing shows page working correctly with multiple lunar and solar eclipses displayed through 2027."
+
+  - task: "Navigation & Routes"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js, frontend/src/pages/Home.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Added routes for /satellites and /eclipses. Updated navigation bar with Satellites and Eclipses links. Added feature cards on homepage for both new features."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
