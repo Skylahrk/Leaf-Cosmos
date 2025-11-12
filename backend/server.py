@@ -398,13 +398,13 @@ async def get_satellite_position(request: SatellitePositionRequest):
         
         return {
             'name': request.name,
-            'latitude': subpoint.latitude.degrees,
-            'longitude': subpoint.longitude.degrees,
-            'altitude_km': subpoint.elevation.km,
-            'observer_altitude': alt.degrees,
-            'observer_azimuth': az.degrees,
-            'distance_km': distance.km,
-            'visible': alt.degrees > 0
+            'latitude': float(subpoint.latitude.degrees),
+            'longitude': float(subpoint.longitude.degrees),
+            'altitude_km': float(subpoint.elevation.km),
+            'observer_altitude': float(alt.degrees),
+            'observer_azimuth': float(az.degrees),
+            'distance_km': float(distance.km),
+            'visible': bool(alt.degrees > 0)
         }
     except Exception as e:
         logger.error(f"Error calculating satellite position: {str(e)}")
