@@ -59,8 +59,9 @@ const Home = () => {
         <div className="logo" data-testid="logo">PLANETARIUM</div>
         <div className="nav-links">
           <Link to="/sky-map" className="nav-link" data-testid="nav-sky-map">Sky Map</Link>
+          <Link to="/satellites" className="nav-link" data-testid="nav-satellites">Satellites</Link>
+          <Link to="/eclipses" className="nav-link" data-testid="nav-eclipses">Eclipses</Link>
           <Link to="/planner" className="nav-link" data-testid="nav-planner">Planner</Link>
-          <Link to="/constellations" className="nav-link" data-testid="nav-constellations">Constellations</Link>
           <Link to="/3d-view" className="nav-link" data-testid="nav-3d-view">3D View</Link>
         </div>
       </nav>
