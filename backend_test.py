@@ -168,6 +168,397 @@ def test_api_root():
         print(f"❌ FAILED: Error testing API root - {e}")
         return False
 
+def test_satellite_list_endpoint():
+    """Test satellite list endpoint"""
+    print("\n" + "=" * 60)
+    print("TESTING SATELLITE LIST ENDPOINT")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        print("❌ FAILED: Could not get backend URL")
+        return False
+    
+    endpoint_url = f"{backend_url}/api/satellites/list"
+    print(f"Testing endpoint: {endpoint_url}")
+    
+    try:
+        response = requests.get(endpoint_url, timeout=30)
+        print(f"Response Status Code: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Expected status code 200, got {response.status_code}")
+            print(f"Response text: {response.text}")
+            return False
+        
+        data = response.json()
+        print(f"✅ SUCCESS: Received JSON response")
+        
+        # Verify response structure
+        if not isinstance(data, list):
+            print(f"❌ FAILED: Expected list response, got {type(data)}")
+            return False
+        
+        if len(data) == 0:
+            print(f"❌ FAILED: Expected satellite groups, got empty list")
+            return False
+        
+        # Check each satellite group
+        required_fields = ['group_id', 'group_name', 'tle_url']
+        for i, group in enumerate(data):
+            print(f"\n🔍 Checking satellite group {i+1}:")
+            for field in required_fields:
+                if field not in group:
+                    print(f"❌ FAILED: Missing field '{field}' in group {i+1}")
+                    return False
+                print(f"  ✅ {field}: {group[field]}")
+        
+        print(f"\n✅ SUCCESS: Satellite list endpoint working correctly!")
+        print(f"📊 Found {len(data)} satellite groups")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error testing satellite list - {e}")
+        return False
+
+def test_satellite_tle_endpoint():
+    """Test satellite TLE data endpoint"""
+    print("\n" + "=" * 60)
+    print("TESTING SATELLITE TLE ENDPOINT")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        print("❌ FAILED: Could not get backend URL")
+        return False
+    
+    # Test with stations group
+    endpoint_url = f"{backend_url}/api/satellites/tle/stations"
+    print(f"Testing endpoint: {endpoint_url}")
+    
+    try:
+        response = requests.get(endpoint_url, timeout=30)
+        print(f"Response Status Code: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Expected status code 200, got {response.status_code}")
+            print(f"Response text: {response.text}")
+            return False
+        
+        data = response.json()
+        print(f"✅ SUCCESS: Received JSON response")
+        
+        # Verify response structure
+        required_fields = ['group_id', 'satellites']
+        for field in required_fields:
+            if field not in data:
+                print(f"❌ FAILED: Missing field '{field}' in response")
+                return False
+        
+        if data['group_id'] != 'stations':
+            print(f"❌ FAILED: Expected group_id 'stations', got '{data['group_id']}'")
+            return False
+        
+        satellites = data['satellites']
+        if not isinstance(satellites, list) or len(satellites) == 0:
+            print(f"❌ FAILED: Expected non-empty satellites list")
+            return False
+        
+        # Check first satellite structure
+        sat = satellites[0]
+        sat_fields = ['name', 'line1', 'line2']
+        print(f"\n🔍 Checking first satellite structure:")
+        for field in sat_fields:
+            if field not in sat:
+                print(f"❌ FAILED: Missing field '{field}' in satellite data")
+                return False
+            print(f"  ✅ {field}: {sat[field][:50]}...")
+        
+        # Verify TLE format
+        if not sat['line1'].startswith('1 ') or not sat['line2'].startswith('2 '):
+            print(f"❌ FAILED: Invalid TLE format")
+            return False
+        
+        print(f"\n✅ SUCCESS: Satellite TLE endpoint working correctly!")
+        print(f"📊 Found {len(satellites)} satellites in stations group")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error testing satellite TLE - {e}")
+        return False
+
+def test_satellite_position_endpoint():
+    """Test satellite position calculation endpoint"""
+    print("\n" + "=" * 60)
+    print("TESTING SATELLITE POSITION ENDPOINT")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        print("❌ FAILED: Could not get backend URL")
+        return False
+    
+    endpoint_url = f"{backend_url}/api/satellites/position"
+    print(f"Testing endpoint: {endpoint_url}")
+    
+    # Sample ISS TLE data (these are example values)
+    test_data = {
+        "name": "ISS (ZARYA)",
+        "line1": "1 25544U 98067A   24001.00000000  .00002182  00000-0  40768-4 0  9990",
+        "line2": "2 25544  51.6461 339.7939 0001220  92.8340 267.3124 15.49309239426382",
+        "latitude": 40.7128,
+        "longitude": -74.0060,
+        "datetime": datetime.now().isoformat() + "Z"
+    }
+    
+    try:
+        response = requests.post(endpoint_url, json=test_data, timeout=30)
+        print(f"Response Status Code: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Expected status code 200, got {response.status_code}")
+            print(f"Response text: {response.text}")
+            return False
+        
+        data = response.json()
+        print(f"✅ SUCCESS: Received JSON response")
+        
+        # Verify response structure
+        required_fields = ['name', 'latitude', 'longitude', 'altitude_km', 'observer_altitude', 'observer_azimuth', 'distance_km', 'visible']
+        print(f"\n🔍 Checking satellite position fields:")
+        for field in required_fields:
+            if field not in data:
+                print(f"❌ FAILED: Missing field '{field}' in response")
+                return False
+            print(f"  ✅ {field}: {data[field]}")
+        
+        # Verify data types and ranges
+        if not isinstance(data['latitude'], (int, float)) or not (-90 <= data['latitude'] <= 90):
+            print(f"❌ FAILED: Invalid latitude value: {data['latitude']}")
+            return False
+        
+        if not isinstance(data['longitude'], (int, float)) or not (-180 <= data['longitude'] <= 180):
+            print(f"❌ FAILED: Invalid longitude value: {data['longitude']}")
+            return False
+        
+        if not isinstance(data['altitude_km'], (int, float)) or data['altitude_km'] < 0:
+            print(f"❌ FAILED: Invalid altitude value: {data['altitude_km']}")
+            return False
+        
+        if not isinstance(data['visible'], bool):
+            print(f"❌ FAILED: Visible should be boolean, got: {type(data['visible'])}")
+            return False
+        
+        print(f"\n✅ SUCCESS: Satellite position endpoint working correctly!")
+        print(f"📊 Position: {data['latitude']:.4f}°, {data['longitude']:.4f}°, {data['altitude_km']:.2f} km")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error testing satellite position - {e}")
+        return False
+
+def test_satellite_passes_endpoint():
+    """Test satellite pass predictions endpoint"""
+    print("\n" + "=" * 60)
+    print("TESTING SATELLITE PASSES ENDPOINT")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        print("❌ FAILED: Could not get backend URL")
+        return False
+    
+    endpoint_url = f"{backend_url}/api/satellites/passes"
+    print(f"Testing endpoint: {endpoint_url}")
+    
+    # Sample ISS TLE data
+    test_data = {
+        "name": "ISS (ZARYA)",
+        "line1": "1 25544U 98067A   24001.00000000  .00002182  00000-0  40768-4 0  9990",
+        "line2": "2 25544  51.6461 339.7939 0001220  92.8340 267.3124 15.49309239426382",
+        "latitude": 40.7128,
+        "longitude": -74.0060,
+        "datetime": datetime.now().isoformat() + "Z",
+        "days": 7
+    }
+    
+    try:
+        response = requests.post(endpoint_url, json=test_data, timeout=30)
+        print(f"Response Status Code: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Expected status code 200, got {response.status_code}")
+            print(f"Response text: {response.text}")
+            return False
+        
+        data = response.json()
+        print(f"✅ SUCCESS: Received JSON response")
+        
+        # Verify response structure
+        if 'satellite' not in data or 'passes' not in data:
+            print(f"❌ FAILED: Missing required fields in response")
+            return False
+        
+        if data['satellite'] != test_data['name']:
+            print(f"❌ FAILED: Satellite name mismatch")
+            return False
+        
+        passes = data['passes']
+        if not isinstance(passes, list):
+            print(f"❌ FAILED: Passes should be a list")
+            return False
+        
+        print(f"📊 Found {len(passes)} satellite passes")
+        
+        # Check pass structure if any passes found
+        if len(passes) > 0:
+            pass_obj = passes[0]
+            print(f"\n🔍 Checking first pass structure:")
+            if 'rise_time' in pass_obj:
+                print(f"  ✅ rise_time: {pass_obj['rise_time']}")
+            if 'max_time' in pass_obj:
+                print(f"  ✅ max_time: {pass_obj['max_time']}")
+            if 'set_time' in pass_obj:
+                print(f"  ✅ set_time: {pass_obj['set_time']}")
+        
+        print(f"\n✅ SUCCESS: Satellite passes endpoint working correctly!")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error testing satellite passes - {e}")
+        return False
+
+def test_lunar_eclipses_endpoint():
+    """Test lunar eclipses endpoint"""
+    print("\n" + "=" * 60)
+    print("TESTING LUNAR ECLIPSES ENDPOINT")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        print("❌ FAILED: Could not get backend URL")
+        return False
+    
+    endpoint_url = f"{backend_url}/api/eclipses/lunar"
+    print(f"Testing endpoint: {endpoint_url}")
+    
+    try:
+        response = requests.get(endpoint_url, timeout=30)
+        print(f"Response Status Code: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Expected status code 200, got {response.status_code}")
+            print(f"Response text: {response.text}")
+            return False
+        
+        data = response.json()
+        print(f"✅ SUCCESS: Received JSON response")
+        
+        # Verify response structure
+        if 'eclipses' not in data:
+            print(f"❌ FAILED: Missing 'eclipses' field in response")
+            return False
+        
+        eclipses = data['eclipses']
+        if not isinstance(eclipses, list):
+            print(f"❌ FAILED: Eclipses should be a list")
+            return False
+        
+        print(f"📊 Found {len(eclipses)} lunar eclipses")
+        
+        # Check eclipse structure if any eclipses found
+        if len(eclipses) > 0:
+            eclipse = eclipses[0]
+            required_fields = ['date', 'time', 'type', 'datetime', 'description']
+            print(f"\n🔍 Checking first eclipse structure:")
+            for field in required_fields:
+                if field not in eclipse:
+                    print(f"❌ FAILED: Missing field '{field}' in eclipse data")
+                    return False
+                print(f"  ✅ {field}: {eclipse[field]}")
+            
+            # Verify eclipse type
+            valid_types = ['Penumbral', 'Partial', 'Total']
+            if eclipse['type'] not in valid_types:
+                print(f"❌ FAILED: Invalid eclipse type: {eclipse['type']}")
+                return False
+        
+        print(f"\n✅ SUCCESS: Lunar eclipses endpoint working correctly!")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error testing lunar eclipses - {e}")
+        return False
+
+def test_solar_eclipses_endpoint():
+    """Test solar eclipses endpoint"""
+    print("\n" + "=" * 60)
+    print("TESTING SOLAR ECLIPSES ENDPOINT")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        print("❌ FAILED: Could not get backend URL")
+        return False
+    
+    endpoint_url = f"{backend_url}/api/eclipses/solar"
+    print(f"Testing endpoint: {endpoint_url}")
+    
+    # Test data with sample location
+    test_data = {
+        "latitude": 40.7128,
+        "longitude": -74.0060,
+        "datetime": datetime.now().isoformat() + "Z"
+    }
+    
+    try:
+        response = requests.post(endpoint_url, json=test_data, timeout=30)
+        print(f"Response Status Code: {response.status_code}")
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Expected status code 200, got {response.status_code}")
+            print(f"Response text: {response.text}")
+            return False
+        
+        data = response.json()
+        print(f"✅ SUCCESS: Received JSON response")
+        
+        # Verify response structure
+        if 'eclipses' not in data:
+            print(f"❌ FAILED: Missing 'eclipses' field in response")
+            return False
+        
+        eclipses = data['eclipses']
+        if not isinstance(eclipses, list):
+            print(f"❌ FAILED: Eclipses should be a list")
+            return False
+        
+        print(f"📊 Found {len(eclipses)} solar eclipses")
+        
+        # Check eclipse structure if any eclipses found
+        if len(eclipses) > 0:
+            eclipse = eclipses[0]
+            required_fields = ['date', 'time', 'type', 'datetime', 'description']
+            print(f"\n🔍 Checking first eclipse structure:")
+            for field in required_fields:
+                if field not in eclipse:
+                    print(f"❌ FAILED: Missing field '{field}' in eclipse data")
+                    return False
+                print(f"  ✅ {field}: {eclipse[field]}")
+            
+            # Verify eclipse type
+            valid_types = ['Partial', 'Total/Annular']
+            if eclipse['type'] not in valid_types:
+                print(f"❌ FAILED: Invalid eclipse type: {eclipse['type']}")
+                return False
+        
+        print(f"\n✅ SUCCESS: Solar eclipses endpoint working correctly!")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error testing solar eclipses - {e}")
+        return False
+
 def main():
     """Run all backend tests"""
     print("🚀 Starting Backend API Tests")
@@ -179,8 +570,18 @@ def main():
     # Test API root
     results['api_root'] = test_api_root()
     
-    # Test NASA APOD endpoint (main focus)
+    # Test NASA APOD endpoint (existing feature)
     results['nasa_apod'] = test_nasa_apod_endpoint()
+    
+    # Test NEW Satellite Tracking endpoints (HIGH PRIORITY)
+    results['satellite_list'] = test_satellite_list_endpoint()
+    results['satellite_tle'] = test_satellite_tle_endpoint()
+    results['satellite_position'] = test_satellite_position_endpoint()
+    results['satellite_passes'] = test_satellite_passes_endpoint()
+    
+    # Test NEW Eclipse Prediction endpoints (HIGH PRIORITY)
+    results['lunar_eclipses'] = test_lunar_eclipses_endpoint()
+    results['solar_eclipses'] = test_solar_eclipses_endpoint()
     
     # Summary
     print("\n" + "=" * 60)
