@@ -10,10 +10,11 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 import requests
-from skyfield.api import load, wgs84
-from skyfield import almanac
+from skyfield.api import load, wgs84, EarthSatellite
+from skyfield import almanac, eclipselib
 import ephem
 import math
+from io import StringIO
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
