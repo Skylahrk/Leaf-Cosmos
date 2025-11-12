@@ -140,37 +140,193 @@ const Home = () => {
       </section>
 
       {/* NASA APOD Section */}
-      {!loading && apod && (
-        <section className="features" style={{ paddingTop: '2rem' }} data-testid="apod-section">
-          <h2 className="section-title">Astronomy Picture of the Day</h2>
+      <section className="features" style={{ paddingTop: '2rem' }} data-testid="apod-section">
+        <h2 className="section-title" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          gap: '1rem',
+          marginBottom: '2rem'
+        }}>
+          <span style={{ fontSize: '2rem' }}>🌠</span>
+          Astronomy Picture of the Day
+          <span style={{ fontSize: '2rem' }}>🌠</span>
+        </h2>
+        
+        {loading ? (
+          <div className="loading">
+            <div className="spinner"></div>
+            <p style={{ color: '#b8c5ff', marginTop: '1rem' }}>Loading today's cosmic wonder...</p>
+          </div>
+        ) : apod ? (
+          <div style={{
+            maxWidth: '1100px',
+            margin: '0 auto',
+            background: 'rgba(20, 10, 50, 0.8)',
+            border: '2px solid rgba(180, 160, 255, 0.4)',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            backdropFilter: 'blur(15px)',
+            boxShadow: '0 20px 60px rgba(147, 112, 219, 0.3)'
+          }}>
+            {apod.media_type === 'image' ? (
+              <div style={{ 
+                position: 'relative',
+                width: '100%',
+                paddingTop: '56.25%',
+                overflow: 'hidden',
+                background: '#000'
+              }}>
+                <img 
+                  src={apod.url} 
+                  alt={apod.title}
+                  style={{ 
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block'
+                  }}
+                  data-testid="apod-image"
+                />
+              </div>
+            ) : apod.media_type === 'video' ? (
+              <div style={{ 
+                position: 'relative',
+                width: '100%',
+                paddingTop: '56.25%',
+                overflow: 'hidden',
+                background: '#000'
+              }}>
+                <iframe
+                  src={apod.url}
+                  style={{ 
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }}
+                  title={apod.title}
+                  allowFullScreen
+                  data-testid="apod-video"
+                />
+              </div>
+            ) : null}
+            
+            <div style={{ padding: '2.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+                <h3 style={{ 
+                  fontSize: '2rem', 
+                  marginBottom: '0.5rem', 
+                  color: '#fff',
+                  fontWeight: '700',
+                  flex: 1,
+                  minWidth: '250px'
+                }} data-testid="apod-title">
+                  {apod.title}
+                </h3>
+                <div style={{
+                  background: 'rgba(147, 112, 219, 0.2)',
+                  padding: '0.5rem 1.5rem',
+                  borderRadius: '25px',
+                  border: '1px solid rgba(147, 112, 219, 0.4)'
+                }}>
+                  <div style={{ color: '#DDA0DD', fontSize: '0.85rem', marginBottom: '0.25rem' }}>Date</div>
+                  <div style={{ color: '#fff', fontWeight: '600' }}>{apod.date}</div>
+                </div>
+              </div>
+              
+              {apod.copyright && (
+                <div style={{ 
+                  marginBottom: '1rem',
+                  padding: '0.75rem 1.25rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '8px',
+                  borderLeft: '3px solid #9370DB'
+                }}>
+                  <span style={{ color: '#DDA0DD', fontSize: '0.9rem', fontWeight: '600' }}>Copyright: </span>
+                  <span style={{ color: '#E6E6FA', fontSize: '0.9rem' }}>{apod.copyright}</span>
+                </div>
+              )}
+              
+              <p style={{ 
+                color: '#b8c5ff', 
+                lineHeight: '1.8',
+                fontSize: '1.05rem',
+                textAlign: 'justify'
+              }} data-testid="apod-description">
+                {apod.explanation}
+              </p>
+              
+              {apod.hdurl && (
+                <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+                  <a 
+                    href={apod.hdurl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-block',
+                      padding: '1rem 2.5rem',
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      color: '#fff',
+                      textDecoration: 'none',
+                      borderRadius: '12px',
+                      fontWeight: '600',
+                      fontSize: '1.05rem',
+                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      boxShadow: '0 10px 30px rgba(102, 126, 234, 0.4)'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 15px 40px rgba(102, 126, 234, 0.6)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 10px 30px rgba(102, 126, 234, 0.4)';
+                    }}
+                  >
+                    🔭 View in HD Quality
+                  </a>
+                </div>
+              )}
+              
+              <div style={{
+                marginTop: '2rem',
+                padding: '1.5rem',
+                background: 'rgba(147, 112, 219, 0.1)',
+                borderRadius: '12px',
+                border: '1px solid rgba(147, 112, 219, 0.3)'
+              }}>
+                <div style={{ color: '#DDA0DD', fontSize: '0.9rem', marginBottom: '0.5rem', fontWeight: '600' }}>
+                  About NASA APOD
+                </div>
+                <div style={{ color: '#E6E6FA', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  Each day, NASA features a different image or photograph of our fascinating universe, 
+                  along with a brief explanation written by a professional astronomer. Discover the cosmos!
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
           <div style={{
             maxWidth: '900px',
             margin: '0 auto',
+            padding: '3rem',
+            textAlign: 'center',
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid rgba(120, 140, 255, 0.2)',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            backdropFilter: 'blur(10px)'
+            borderRadius: '16px'
           }}>
-            {apod.media_type === 'image' && (
-              <img 
-                src={apod.url} 
-                alt={apod.title}
-                style={{ width: '100%', display: 'block' }}
-                data-testid="apod-image"
-              />
-            )}
-            <div style={{ padding: '2rem' }}>
-              <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#fff' }} data-testid="apod-title">
-                {apod.title}
-              </h3>
-              <p style={{ color: '#b8c5ff', lineHeight: '1.6' }} data-testid="apod-description">
-                {apod.explanation}
-              </p>
-            </div>
+            <p style={{ color: '#b8c5ff', fontSize: '1.1rem' }}>
+              Unable to load today's astronomy picture. Please check back later!
+            </p>
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </div>
   );
 };
