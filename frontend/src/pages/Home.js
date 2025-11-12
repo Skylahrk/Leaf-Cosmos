@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Telescope, Map, Calendar, Sparkles, Globe, Moon, Satellite, Eclipse } from 'lucide-react';
+import { Telescope, Map, Calendar, Sparkles, Globe, Moon, Satellite, Sun } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
