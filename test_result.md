@@ -146,27 +146,33 @@ backend:
 
   - task: "Satellite Tracking API"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Implemented satellite tracking endpoints: /api/satellites/list, /api/satellites/tle/{group_id}, /api/satellites/position, /api/satellites/passes. Fetches TLE data from CelesTrak for multiple satellite groups (stations, starlink, gps-ops, galileo, visual). Uses Skyfield with SGP4 model for accurate position calculations and pass predictions."
+        - working: true
+          agent: "testing"
+          comment: "✅ BACKEND TEST PASSED: All satellite tracking endpoints fully functional. Fixed JSON serialization issue in position endpoint by converting numpy types to Python native types. Verified: 1) GET /api/satellites/list returns 5 satellite groups (stations, starlink, gps-ops, galileo, visual), 2) GET /api/satellites/tle/stations returns 26 satellites with valid TLE data, 3) POST /api/satellites/position calculates accurate ISS position with lat/lon/altitude and visibility status, 4) POST /api/satellites/passes predicts 20 upcoming ISS passes with rise/max/set times. All calculations working correctly with real TLE data from CelesTrak."
 
   - task: "Eclipse Predictions API"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Implemented eclipse prediction endpoints: /api/eclipses/lunar, /api/eclipses/solar. Uses Skyfield's eclipselib for lunar eclipses and angular separation calculations for solar eclipses. Returns global eclipse events through 2027."
+        - working: true
+          agent: "testing"
+          comment: "✅ BACKEND TEST PASSED: Eclipse prediction endpoints fully functional. Verified: 1) GET /api/eclipses/lunar returns 5 upcoming lunar eclipses through 2027 with correct date/time/type (Total, Partial, Penumbral), 2) POST /api/eclipses/solar returns 6 upcoming solar eclipses with location-based calculations and proper eclipse types (Partial, Total/Annular). All eclipse calculations working correctly using Skyfield's astronomical algorithms."
 
 frontend:
   - task: "APOD Display Component"
