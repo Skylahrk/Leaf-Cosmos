@@ -144,6 +144,30 @@ backend:
           agent: "main"
           comment: "Existing feature - not modified in this session"
 
+  - task: "Satellite Tracking API"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented satellite tracking endpoints: /api/satellites/list, /api/satellites/tle/{group_id}, /api/satellites/position, /api/satellites/passes. Fetches TLE data from CelesTrak for multiple satellite groups (stations, starlink, gps-ops, galileo, visual). Uses Skyfield with SGP4 model for accurate position calculations and pass predictions."
+
+  - task: "Eclipse Predictions API"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented eclipse prediction endpoints: /api/eclipses/lunar, /api/eclipses/solar. Uses Skyfield's eclipselib for lunar eclipses and angular separation calculations for solar eclipses. Returns global eclipse events through 2027."
+
 frontend:
   - task: "APOD Display Component"
     implemented: true
