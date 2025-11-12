@@ -242,9 +242,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Satellite Tracking API"
-    - "Eclipse Predictions API"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
