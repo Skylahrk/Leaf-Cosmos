@@ -159,6 +159,9 @@ const HelicalSolarSystem = () => {
       });
       const planetGlow = new THREE.Mesh(glowGeometry, glowMaterial);
       planet.add(planetGlow);
+      
+      // Initialize angle
+      planet.userData.angle = Math.random() * Math.PI * 2;
 
       // Orbit ring (static reference)
       const orbitGeometry = new THREE.BufferGeometry();
