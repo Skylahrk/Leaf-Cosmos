@@ -45,11 +45,25 @@ const SimpleSolarSystem = () => {
     const starsMaterial = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.5 });
     scene.add(new THREE.Points(starsGeometry, starsMaterial));
 
-    // Sun
+    // Sun with dramatic glow like the viral video
     const sunGeometry = new THREE.SphereGeometry(3, 32, 32);
-    const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xFDB813 });
+    const sunMaterial = new THREE.MeshBasicMaterial({ 
+      color: 0xFDB813,
+      emissive: 0xFDB813,
+      emissiveIntensity: 1
+    });
     const sun = new THREE.Mesh(sunGeometry, sunMaterial);
     scene.add(sun);
+
+    // Sun glow
+    const glowGeometry = new THREE.SphereGeometry(5, 32, 32);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+      color: 0xFFA500,
+      transparent: true,
+      opacity: 0.3
+    });
+    const sunGlow = new THREE.Mesh(glowGeometry, glowMaterial);
+    scene.add(sunGlow);
 
     // Sun light
     const sunLight = new THREE.PointLight(0xFFFFFF, 2, 200);
