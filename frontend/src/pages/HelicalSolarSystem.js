@@ -424,7 +424,11 @@ const HelicalSolarSystem = () => {
           <span style={{ color: '#fff', fontSize: '0.9rem' }}>Speed: {timeSpeed}x</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <button
-              onClick={() => setTimeSpeed(Math.min(timeSpeed + 0.5, 10))}
+              onClick={() => {
+                const newSpeed = Math.min(timeSpeed + 0.5, 10);
+                setTimeSpeed(newSpeed);
+                timeSpeedRef.current = newSpeed;
+              }}
               style={{
                 padding: '0.25rem 0.5rem',
                 background: 'rgba(102, 126, 234, 0.3)',
