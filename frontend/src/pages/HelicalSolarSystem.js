@@ -260,8 +260,8 @@ const HelicalSolarSystem = () => {
         planets.forEach((planet, index) => {
           const data = planet.userData;
           
-          // Orbital motion - MUCH faster rotation for clearly visible spirals
-          data.angle += 0.01 * data.speed * timeSpeed;
+          // Orbital motion - EXTREME speed multiplier for instant visible motion
+          data.angle += 0.001 * data.speed * timeSpeed;
           
           // Position relative to sun with 60° tilt
           const x = Math.cos(data.angle) * data.distance;
