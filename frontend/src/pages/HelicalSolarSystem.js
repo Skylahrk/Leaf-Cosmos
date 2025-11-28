@@ -243,7 +243,7 @@ const HelicalSolarSystem = () => {
         }
 
         // Update sun trail
-        if (showTrails) {
+        if (showTrailsRef.current) {
           sunTrailData.positions.push(new THREE.Vector3(0, 0, -forwardMotion));
           
           if (sunTrailData.positions.length > sunTrailData.maxPoints) {
