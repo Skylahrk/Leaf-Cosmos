@@ -218,6 +218,11 @@ const HelicalSolarSystem = () => {
         time += 0.01 * timeSpeed;
         forwardMotion += sunSpeed * timeSpeed;
         setForwardDistance(Math.floor(forwardMotion / 10));
+        
+        // Debug logging every 100 frames
+        if (Math.floor(time * 100) % 100 === 0) {
+          console.log('Animation running:', { time, forwardMotion, planetCount: planets.length });
+        }
 
         // Update sun position (moving forward through space)
         sun.position.z = -forwardMotion;
