@@ -441,7 +441,11 @@ const HelicalSolarSystem = () => {
               <ChevronUp size={16} />
             </button>
             <button
-              onClick={() => setTimeSpeed(Math.max(timeSpeed - 0.5, 0.5))}
+              onClick={() => {
+                const newSpeed = Math.max(timeSpeed - 0.5, 0.5);
+                setTimeSpeed(newSpeed);
+                timeSpeedRef.current = newSpeed;
+              }}
               style={{
                 padding: '0.25rem 0.5rem',
                 background: 'rgba(102, 126, 234, 0.3)',
