@@ -30,6 +30,7 @@ function App() {
           <Route path="/constellations-3d" element={<Constellations3D />} />
           <Route path="/3d-view" element={<Planets3DSimple />} />
           <Route path="/solar-system" element={<HelicalSolarSystem />} />
+          <Route path="/solar-test" element={<SimpleSolarSystem />} />
           <Route path="/satellites" element={<SatelliteTracker />} />
           <Route path="/eclipses" element={<EclipsePredictions />} />
         </Routes>
