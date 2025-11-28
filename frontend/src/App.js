@@ -29,8 +29,8 @@ function App() {
           <Route path="/constellations" element={<CustomConstellations />} />
           <Route path="/constellations-3d" element={<Constellations3D />} />
           <Route path="/3d-view" element={<Planets3DSimple />} />
-          <Route path="/solar-system" element={<HelicalSolarSystem />} />
-          <Route path="/solar-test" element={<SimpleSolarSystem />} />
+          <Route path="/solar-system" element={<SimpleSolarSystem />} />
+          <Route path="/solar-test" element={<HelicalSolarSystem />} />
           <Route path="/satellites" element={<SatelliteTracker />} />
           <Route path="/eclipses" element={<EclipsePredictions />} />
         </Routes>
