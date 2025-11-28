@@ -390,7 +390,10 @@ const HelicalSolarSystem = () => {
         zIndex: 10
       }}>
         <button
-          onClick={() => setIsPlaying(!isPlaying)}
+          onClick={() => {
+            setIsPlaying(!isPlaying);
+            isPlayingRef.current = !isPlaying;
+          }}
           style={{
             padding: '0.75rem 1.5rem',
             background: isPlaying ? '#ef4444' : '#10b981',
