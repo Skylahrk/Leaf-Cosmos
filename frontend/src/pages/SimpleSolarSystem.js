@@ -125,10 +125,10 @@ const SimpleSolarSystem = () => {
       sun.position.z = -forwardMotion;
       sunLight.position.z = -forwardMotion;
 
-      // Update planets - VERY SIMPLE
+      // Update planets - faster orbital motion for dramatic effect
       planets.forEach((planet, index) => {
-        // Increment angle - THIS IS THE KEY!
-        planet.angle += 0.01 * planet.speed;
+        // Increment angle - faster for more visible spirals!
+        planet.angle += 0.015 * planet.speed;
         
         // Calculate position with helical motion
         const tilt = -60 * (Math.PI / 180);
