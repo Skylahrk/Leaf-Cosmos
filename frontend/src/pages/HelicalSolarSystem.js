@@ -318,7 +318,7 @@ const HelicalSolarSystem = () => {
       }
       renderer.dispose();
     };
-  }, [isPlaying, timeSpeed, showTrails]);
+  }, []); // Empty dependency array - only run once on mount
 
   const resetView = () => {
     if (cameraRef.current && controlsRef.current) {
