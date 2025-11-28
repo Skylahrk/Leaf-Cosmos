@@ -216,6 +216,25 @@ const HelicalSolarSystem = () => {
           controlsRef.current.target.set(0, 0, -forwardMotion);
         }
 
+        // Update sun trail
+        if (showTrails) {
+          sunTrailData.positions.push(new THREE.Vector3(0, 0, -forwardMotion));
+          
+          if (sunTrailData.positions.length > sunTrailData.maxPoints) {
+            sunTrailData.positions.shift();
+          }
+          
+          const sunPositions = sunTrailData.line.geometry.attributes.position.array;
+          sunTrailData.positions.forEach((pos, i) => {
+            sunPositions[i * 3] = pos.x;
+            sunPositions[i * 3 + 1] = pos.y;
+            sunPositions[i * 3 + 2] = pos.z;
+          });
+          
+          sunTrailData.line.geometry.attributes.position.needsUpdate = true;
+          sunTrailData.line.geometry.setDrawRange(0, sunTrailData.positions.length);
+        }
+
         // Update planets with helical motion
         planets.forEach((planet, index) => {
           const data = planet.userData;
