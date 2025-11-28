@@ -154,21 +154,21 @@ const HelicalSolarSystem = () => {
       const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
       scene.add(orbitLine);
 
-      // Trail for helical path
+      // Trail for helical path - much longer trails for dramatic effect
       const trailGeometry = new THREE.BufferGeometry();
-      const trailPositions = new Float32Array(300 * 3); // 100 points
+      const trailPositions = new Float32Array(1500 * 3); // 500 points for long trails
       trailGeometry.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
       trailGeometry.setDrawRange(0, 0);
       
       const trailMaterial = new THREE.LineBasicMaterial({
         color: planetInfo.trailColor,
         transparent: true,
-        opacity: 0.6,
-        linewidth: 2
+        opacity: 0.8,
+        linewidth: 3
       });
       const trail = new THREE.Line(trailGeometry, trailMaterial);
       scene.add(trail);
-      trails.push({ line: trail, positions: [], maxPoints: 100 });
+      trails.push({ line: trail, positions: [], maxPoints: 500 });
     });
 
     // Add grid for depth perception
