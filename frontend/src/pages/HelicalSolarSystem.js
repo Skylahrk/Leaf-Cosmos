@@ -235,12 +235,8 @@ const HelicalSolarSystem = () => {
         sunGlow.position.z = -forwardMotion;
         sunLight.position.z = -forwardMotion;
 
-        // Camera follows the sun to keep it centered
-        if (controlsRef.current && cameraRef.current) {
-          const targetZ = -forwardMotion;
-          cameraRef.current.position.z = targetZ;
-          controlsRef.current.target.z = targetZ;
-        }
+        // Don't follow the sun - let it move away so we can see the helical motion!
+        // This way we see planets orbiting AND the system moving forward through space
 
         // Update sun trail
         if (showTrailsRef.current) {
