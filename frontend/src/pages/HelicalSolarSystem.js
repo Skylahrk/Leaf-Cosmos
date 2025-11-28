@@ -136,19 +136,29 @@ const HelicalSolarSystem = () => {
     const sunTrailData = { line: sunTrail, positions: [], maxPoints: 500 };
 
     planetData.forEach((planetInfo) => {
-      // Planet sphere
+      // Planet sphere with stronger glow
       const geometry = new THREE.SphereGeometry(planetInfo.size, 32, 32);
       const material = new THREE.MeshStandardMaterial({ 
         color: planetInfo.color,
         emissive: planetInfo.color,
-        emissiveIntensity: 0.2,
-        roughness: 0.7,
-        metalness: 0.3
+        emissiveIntensity: 0.5,
+        roughness: 0.5,
+        metalness: 0.5
       });
       const planet = new THREE.Mesh(geometry, material);
       planet.userData = { ...planetInfo, angle: Math.random() * Math.PI * 2 };
       scene.add(planet);
       planets.push(planet);
+
+      // Add planet glow for better visibility
+      const glowGeometry = new THREE.SphereGeometry(planetInfo.size * 1.3, 16, 16);
+      const glowMaterial = new THREE.MeshBasicMaterial({
+        color: planetInfo.color,
+        transparent: true,
+        opacity: 0.3
+      });
+      const planetGlow = new THREE.Mesh(glowGeometry, glowMaterial);
+      planet.add(planetGlow);
 
       // Orbit ring (static reference)
       const orbitGeometry = new THREE.BufferGeometry();
