@@ -461,7 +461,10 @@ const HelicalSolarSystem = () => {
         </div>
 
         <button
-          onClick={() => setShowTrails(!showTrails)}
+          onClick={() => {
+            setShowTrails(!showTrails);
+            showTrailsRef.current = !showTrails;
+          }}
           style={{
             padding: '0.75rem 1.5rem',
             background: showTrails ? 'rgba(102, 126, 234, 0.5)' : 'rgba(255, 255, 255, 0.1)',
