@@ -25,14 +25,14 @@ const HelicalSolarSystem = () => {
 
   // Planet data with EXTREME orbital speeds for highly visible motion
   const planetData = [
-    { name: 'Mercury', color: 0x8C7853, size: 0.4, distance: 4, speed: 200, trailColor: 0xFFAA00 },
-    { name: 'Venus', color: 0xFFC649, size: 0.95, distance: 7, speed: 150, trailColor: 0xFFCC44 },
-    { name: 'Earth', color: 0x2F6A8F, size: 1, distance: 10, speed: 100, trailColor: 0x00AAFF },
-    { name: 'Mars', color: 0xCD5C5C, size: 0.53, distance: 15, speed: 80, trailColor: 0xFF4444 },
-    { name: 'Jupiter', color: 0xDAA520, size: 2.5, distance: 25, speed: 50, trailColor: 0xFFAA44 },
-    { name: 'Saturn', color: 0xFAD5A5, size: 2.1, distance: 35, speed: 40, trailColor: 0xFFDD77 },
-    { name: 'Uranus', color: 0x4FD0E0, size: 1.6, distance: 45, speed: 30, trailColor: 0x44DDFF },
-    { name: 'Neptune', color: 0x4166F5, size: 1.5, distance: 55, speed: 20, trailColor: 0x4444FF },
+    { name: 'Mercury', color: 0x8C7853, size: 1, distance: 4, speed: 200, trailColor: 0xFFAA00 },
+    { name: 'Venus', color: 0xFFC649, size: 1.5, distance: 7, speed: 150, trailColor: 0xFFCC44 },
+    { name: 'Earth', color: 0x2F6A8F, size: 1.8, distance: 10, speed: 100, trailColor: 0x00AAFF },
+    { name: 'Mars', color: 0xCD5C5C, size: 1.2, distance: 15, speed: 80, trailColor: 0xFF4444 },
+    { name: 'Jupiter', color: 0xDAA520, size: 3.5, distance: 25, speed: 50, trailColor: 0xFFAA44 },
+    { name: 'Saturn', color: 0xFAD5A5, size: 3, distance: 35, speed: 40, trailColor: 0xFFDD77 },
+    { name: 'Uranus', color: 0x4FD0E0, size: 2.5, distance: 45, speed: 30, trailColor: 0x44DDFF },
+    { name: 'Neptune', color: 0x4166F5, size: 2.3, distance: 55, speed: 20, trailColor: 0x4444FF },
   ];
 
   useEffect(() => {
