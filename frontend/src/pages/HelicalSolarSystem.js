@@ -179,7 +179,7 @@ const HelicalSolarSystem = () => {
     // Animation variables
     let time = 0;
     let forwardMotion = 0;
-    const sunSpeed = 0.2; // Sun's forward speed through space
+    const sunSpeed = 0.5; // Sun's forward speed through space - faster for more dramatic effect
 
     // Animation loop
     const animate = () => {
@@ -190,17 +190,22 @@ const HelicalSolarSystem = () => {
         forwardMotion += sunSpeed * timeSpeed;
         setForwardDistance(Math.floor(forwardMotion / 10));
 
-        // Update sun position (moving forward)
+        // Update sun position (moving forward through space)
         sun.position.z = -forwardMotion;
         sunGlow.position.z = -forwardMotion;
         sunLight.position.z = -forwardMotion;
+
+        // Camera follows the sun to keep it centered
+        if (controlsRef.current) {
+          controlsRef.current.target.set(0, 0, -forwardMotion);
+        }
 
         // Update planets with helical motion
         planets.forEach((planet, index) => {
           const data = planet.userData;
           
-          // Orbital motion - faster rotation
-          data.angle += 0.01 * data.speed * timeSpeed;
+          // Orbital motion - faster rotation for visible spirals
+          data.angle += 0.015 * data.speed * timeSpeed;
           
           // Position relative to sun with 60° tilt
           const x = Math.cos(data.angle) * data.distance;
