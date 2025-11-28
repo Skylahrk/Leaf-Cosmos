@@ -38,14 +38,14 @@ const HelicalSolarSystem = () => {
     scene.fog = new THREE.Fog(0x000511, 50, 200);
     sceneRef.current = scene;
 
-    // Camera setup
+    // Camera setup - side view to see helical motion clearly
     const camera = new THREE.PerspectiveCamera(
       60,
       mountRef.current.clientWidth / mountRef.current.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 50, 80);
+    camera.position.set(80, 30, 0);
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
