@@ -12,7 +12,7 @@ const HelicalSolarSystem = () => {
   const animationRef = useRef(null);
   
   const [isPlaying, setIsPlaying] = useState(true);
-  const [timeSpeed, setTimeSpeed] = useState(5);
+  const [timeSpeed, setTimeSpeed] = useState(10);
   const [showTrails, setShowTrails] = useState(true);
   const [showInfo, setShowInfo] = useState(true);
   const [forwardDistance, setForwardDistance] = useState(0);
