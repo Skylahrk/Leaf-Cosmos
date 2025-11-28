@@ -59,16 +59,16 @@ const SimpleSolarSystem = () => {
     const ambientLight = new THREE.AmbientLight(0x222244, 0.5);
     scene.add(ambientLight);
 
-    // Planets - SIMPLE version with just position updates
+    // Planets - matching viral video style with dramatic motion
     const planetsData = [
-      { name: 'Mercury', color: 0x8C7853, size: 1, distance: 8, speed: 10 },
-      { name: 'Venus', color: 0xFFC649, size: 1.5, distance: 12, speed: 7 },
-      { name: 'Earth', color: 0x2F6A8F, size: 1.8, distance: 16, speed: 5 },
-      { name: 'Mars', color: 0xCD5C5C, size: 1.2, distance: 20, speed: 4 },
-      { name: 'Jupiter', color: 0xDAA520, size: 3, distance: 28, speed: 2 },
-      { name: 'Saturn', color: 0xFAD5A5, size: 2.5, distance: 36, speed: 1.5 },
-      { name: 'Uranus', color: 0x4FD0E0, size: 2, distance: 44, speed: 1 },
-      { name: 'Neptune', color: 0x4166F5, size: 2, distance: 52, speed: 0.7 },
+      { name: 'Mercury', color: 0xFF6B35, size: 0.8, distance: 6, speed: 15, trailColor: 0xFF6B35 },
+      { name: 'Venus', color: 0xFFC649, size: 1.2, distance: 9, speed: 12, trailColor: 0xFFDD77 },
+      { name: 'Earth', color: 0x4A90E2, size: 1.3, distance: 12, speed: 10, trailColor: 0x00AAFF },
+      { name: 'Mars', color: 0xE63946, size: 0.9, distance: 16, speed: 8, trailColor: 0xFF4466 },
+      { name: 'Jupiter', color: 0xF4A261, size: 3.5, distance: 24, speed: 4, trailColor: 0xFFAA44 },
+      { name: 'Saturn', color: 0xE9C46A, size: 3, distance: 32, speed: 3, trailColor: 0xFFDD77 },
+      { name: 'Uranus', color: 0x4ECDC4, size: 2.2, distance: 40, speed: 2, trailColor: 0x44DDFF },
+      { name: 'Neptune', color: 0x2A9D8F, size: 2.1, distance: 48, speed: 1.5, trailColor: 0x44AAFF },
     ];
 
     const planets = [];
