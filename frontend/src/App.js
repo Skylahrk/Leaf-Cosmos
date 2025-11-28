@@ -8,7 +8,7 @@ import Planner from './pages/Planner';
 import CustomConstellations from './pages/CustomConstellations';
 import Constellations3D from './pages/Constellations3D';
 import Planets3DSimple from './pages/Planets3DSimple';
-import EnhancedSolarSystem from './pages/EnhancedSolarSystem';
+import HelicalSolarSystem from './pages/HelicalSolarSystem';
 import SatelliteTracker from './pages/SatelliteTracker';
 import EclipsePredictions from './pages/EclipsePredictions';
 import ViewerAnalytics from './components/ViewerAnalytics';
