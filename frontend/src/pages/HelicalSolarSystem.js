@@ -268,6 +268,11 @@ const HelicalSolarSystem = () => {
           // Orbital motion - EXTREME speed multiplier for instant visible motion
           data.angle += 0.001 * data.speed * timeSpeedRef.current;
           
+          // Debug: log first planet's angle every 60 frames
+          if (index === 0 && Math.floor(time * 10) % 60 === 0) {
+            console.log(`Planet ${data.name}: angle=${data.angle.toFixed(2)}, speed=${data.speed}, timeSpeed=${timeSpeedRef.current}`);
+          }
+          
           // Position relative to sun with 60° tilt
           const x = Math.cos(data.angle) * data.distance;
           const y = Math.sin(data.angle) * data.distance * Math.sin(tiltAngle);
