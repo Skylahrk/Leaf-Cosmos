@@ -110,11 +110,16 @@ const SimpleSolarSystem = () => {
     let forwardMotion = 0;
     let animationId;
 
-    // Animation loop
+    // Add grid for depth perception like the viral video
+    const gridHelper = new THREE.GridHelper(200, 40, 0x444466, 0x222233);
+    gridHelper.position.y = -15;
+    scene.add(gridHelper);
+
+    // Animation loop - faster forward motion
     const animate = () => {
       animationId = requestAnimationFrame(animate);
 
-      forwardMotion += 0.3;
+      forwardMotion += 0.5; // Faster forward motion
 
       // Update sun position
       sun.position.z = -forwardMotion;
