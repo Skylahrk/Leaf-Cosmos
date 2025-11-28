@@ -227,9 +227,30 @@ const SimpleSolarSystem = () => {
         fontWeight: 'bold',
         textAlign: 'center',
         pointerEvents: 'none',
-        textShadow: '0 0 20px rgba(102, 126, 234, 0.8)'
+        textShadow: '0 0 20px rgba(255, 255, 255, 0.8)'
       }}>
-        Simple Test - Planets MUST Move
+        <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
+          How Solar System Really Moves
+        </div>
+        <div style={{ fontSize: '1.2rem', fontWeight: 'normal', color: '#b8c5ff' }}>
+          Helical motion through the Milky Way galaxy
+        </div>
+      </div>
+      
+      <div style={{
+        position: 'absolute',
+        bottom: '2rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        color: '#fff',
+        fontSize: '1rem',
+        textAlign: 'center',
+        background: 'rgba(0, 0, 0, 0.5)',
+        padding: '1rem 2rem',
+        borderRadius: '10px',
+        backdropFilter: 'blur(10px)'
+      }}>
+        Drag to rotate • Scroll to zoom • Watch the helical vortex!
       </div>
     </div>
   );
