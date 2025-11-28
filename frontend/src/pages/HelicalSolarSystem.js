@@ -119,6 +119,22 @@ const HelicalSolarSystem = () => {
     const trails = [];
     const tiltAngle = -60 * (Math.PI / 180); // 60° tilt (realistic)
 
+    // Sun trail to show its path through space
+    const sunTrailGeometry = new THREE.BufferGeometry();
+    const sunTrailPositions = new Float32Array(1500 * 3);
+    sunTrailGeometry.setAttribute('position', new THREE.BufferAttribute(sunTrailPositions, 3));
+    sunTrailGeometry.setDrawRange(0, 0);
+    
+    const sunTrailMaterial = new THREE.LineBasicMaterial({
+      color: 0xFFAA00,
+      transparent: true,
+      opacity: 0.4,
+      linewidth: 4
+    });
+    const sunTrail = new THREE.Line(sunTrailGeometry, sunTrailMaterial);
+    scene.add(sunTrail);
+    const sunTrailData = { line: sunTrail, positions: [], maxPoints: 500 };
+
     planetData.forEach((planetInfo) => {
       // Planet sphere
       const geometry = new THREE.SphereGeometry(planetInfo.size, 32, 32);
