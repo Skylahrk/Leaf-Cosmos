@@ -221,9 +221,12 @@ const HelicalSolarSystem = () => {
         sunGlow.position.z = -forwardMotion;
         sunLight.position.z = -forwardMotion;
 
-        // Camera follows the sun to keep it centered
-        if (controlsRef.current) {
-          controlsRef.current.target.set(0, 0, -forwardMotion);
+        // Camera follows the sun smoothly to keep it centered
+        if (controlsRef.current && cameraRef.current) {
+          const targetZ = -forwardMotion;
+          // Smooth camera follow
+          cameraRef.current.position.z = cameraRef.current.position.z * 0.95 + targetZ * 0.05;
+          controlsRef.current.target.z = controlsRef.current.target.z * 0.95 + targetZ * 0.05;
         }
 
         // Update sun trail
