@@ -11,11 +11,17 @@ const HelicalSolarSystem = () => {
   const controlsRef = useRef(null);
   const animationRef = useRef(null);
   
+  const [showInfo, setShowInfo] = useState(true);
+  const [forwardDistance, setForwardDistance] = useState(0);
+  
+  // Use refs for animation state so they can be updated without recreating the scene
+  const isPlayingRef = useRef(true);
+  const timeSpeedRef = useRef(10);
+  const showTrailsRef = useRef(true);
+  
   const [isPlaying, setIsPlaying] = useState(true);
   const [timeSpeed, setTimeSpeed] = useState(10);
   const [showTrails, setShowTrails] = useState(true);
-  const [showInfo, setShowInfo] = useState(true);
-  const [forwardDistance, setForwardDistance] = useState(0);
 
   // Planet data with EXTREME orbital speeds for highly visible motion
   const planetData = [
