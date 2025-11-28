@@ -12,14 +12,15 @@ const SimpleSolarSystem = () => {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000511);
 
-    // Camera
+    // Camera - side view to clearly see helical motion like the viral video
     const camera = new THREE.PerspectiveCamera(
-      60,
+      50,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.set(80, 30, 0);
+    camera.position.set(100, 20, 0);
+    camera.lookAt(0, 0, 0);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
