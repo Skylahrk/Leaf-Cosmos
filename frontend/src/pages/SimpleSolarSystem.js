@@ -91,14 +91,19 @@ const SimpleSolarSystem = () => {
       scene.add(planet);
       planets.push(planet);
 
-      // Trail
+      // Trail - much longer and more dramatic like the viral video
       const trailGeometry = new THREE.BufferGeometry();
-      const trailPositions = new Float32Array(300 * 3);
+      const trailPositions = new Float32Array(1000 * 3);
       trailGeometry.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
-      const trailMaterial = new THREE.LineBasicMaterial({ color: data.color, transparent: true, opacity: 0.6 });
+      const trailMaterial = new THREE.LineBasicMaterial({ 
+        color: data.trailColor || data.color, 
+        transparent: true, 
+        opacity: 0.8,
+        linewidth: 2
+      });
       const trail = new THREE.Line(trailGeometry, trailMaterial);
       scene.add(trail);
-      trails.push({ line: trail, positions: [], maxPoints: 100 });
+      trails.push({ line: trail, positions: [], maxPoints: 300 });
     });
 
     // Animation variables
