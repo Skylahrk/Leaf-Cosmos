@@ -276,7 +276,7 @@ const HelicalSolarSystem = () => {
           planet.position.set(x, y, z);
           
           // Update trail
-          if (showTrails) {
+          if (showTrailsRef.current) {
             const trail = trails[index];
             trail.positions.push(new THREE.Vector3(x, y, z));
             
