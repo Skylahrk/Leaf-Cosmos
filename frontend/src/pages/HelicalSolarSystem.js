@@ -266,7 +266,7 @@ const HelicalSolarSystem = () => {
           const data = planet.userData;
           
           // Orbital motion - EXTREME speed multiplier for instant visible motion
-          data.angle += 0.001 * data.speed * timeSpeed;
+          data.angle += 0.001 * data.speed * timeSpeedRef.current;
           
           // Position relative to sun with 60° tilt
           const x = Math.cos(data.angle) * data.distance;
