@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Satellite, MapPin, Clock, Eye, RefreshCw, Loader } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Play, Pause, RotateCcw, Zap, Info } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
