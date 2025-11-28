@@ -73,8 +73,31 @@ const SimpleSolarSystem = () => {
 
     const planets = [];
     const trails = [];
+    const tilt = -60 * (Math.PI / 180); // 60 degree tilt
     
     planetsData.forEach((data, i) => {
+      // Orbital ring
+      const orbitGeometry = new THREE.BufferGeometry();
+      const orbitPoints = [];
+      for (let j = 0; j <= 64; j++) {
+        const angle = (j / 64) * Math.PI * 2;
+        orbitPoints.push(
+          Math.cos(angle) * data.distance,
+          0,
+          Math.sin(angle) * data.distance
+        );
+      }
+      orbitGeometry.setAttribute('position', new THREE.Float32BufferAttribute(orbitPoints, 3));
+      orbitGeometry.rotateX(tilt);
+      const orbitMaterial = new THREE.LineBasicMaterial({ 
+        color: data.trailColor || data.color, 
+        transparent: true, 
+        opacity: 0.15 
+      });
+      const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial);
+      scene.add(orbitLine);
+      
+
       const geometry = new THREE.SphereGeometry(data.size, 32, 32);
       const material = new THREE.MeshStandardMaterial({ 
         color: data.color,
