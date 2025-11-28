@@ -220,9 +220,9 @@ const HelicalSolarSystem = () => {
     const animate = () => {
       animationRef.current = requestAnimationFrame(animate);
 
-      if (isPlaying) {
-        time += 0.01 * timeSpeed;
-        forwardMotion += sunSpeed * timeSpeed;
+      if (isPlayingRef.current) {
+        time += 0.01 * timeSpeedRef.current;
+        forwardMotion += sunSpeed * timeSpeedRef.current;
         setForwardDistance(Math.floor(forwardMotion / 10));
         
         // Debug logging every 100 frames
