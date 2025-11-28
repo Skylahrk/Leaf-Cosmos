@@ -160,6 +160,7 @@ const SimpleSolarSystem = () => {
 
       // Update sun position
       sun.position.z = -forwardMotion;
+      sunGlow.position.z = -forwardMotion;
       sunLight.position.z = -forwardMotion;
 
       // Update planets - faster orbital motion for dramatic effect
