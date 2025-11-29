@@ -343,12 +343,16 @@ const SatelliteTracker = () => {
                       Visibility Status
                     </div>
                     <div style={{ fontSize: '1.25rem', fontWeight: '600' }}>
-                      {satellitePosition.visible ? '✅ Visible' : '❌ Below Horizon'}
+                      {satellitePosition.visible ? '✅ Above Horizon (Potentially Visible)' : '❌ Below Horizon'}
                     </div>
-                    {satellitePosition.visible && (
+                    {satellitePosition.visible ? (
                       <div style={{ fontSize: '0.9rem', color: '#b8c5ff', marginTop: '0.5rem' }}>
                         Altitude: {satellitePosition.observer_altitude.toFixed(2)}° | 
                         Azimuth: {satellitePosition.observer_azimuth.toFixed(2)}°
+                      </div>
+                    ) : (
+                      <div style={{ fontSize: '0.85rem', color: '#fca5a5', marginTop: '0.5rem', fontStyle: 'italic' }}>
+                        💡 Most satellites are below horizon at any moment. Check "Upcoming Passes" below to see when it will be visible!
                       </div>
                     )}
                   </div>
