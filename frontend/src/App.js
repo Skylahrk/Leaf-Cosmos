@@ -38,6 +38,7 @@ function App() {
           <Route path="/satellites" element={<SatelliteTracker />} />
           <Route path="/eclipses" element={<EclipsePredictions />} />
           <Route path="/mythology" element={<AstronomicalMythology />} />
+          <Route path="/planets" element={<PlanetExplorer />} />
         </Routes>
         <Footer />
       </BrowserRouter>
