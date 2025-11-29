@@ -261,12 +261,14 @@ const SatelliteTracker = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             {/* Current Position */}
             {selectedSatellite && satellitePosition && (
+              <>
               <div style={{
                 background: 'rgba(20, 10, 50, 0.8)',
                 border: '2px solid rgba(180, 160, 255, 0.4)',
                 borderRadius: '20px',
                 padding: '2rem',
-                backdropFilter: 'blur(15px)'
+                backdropFilter: 'blur(15px)',
+                marginBottom: '2rem'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                   <h2 style={{ fontSize: '1.5rem', margin: 0 }}>{selectedSatellite.name}</h2>
