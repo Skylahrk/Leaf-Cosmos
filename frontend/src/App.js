@@ -14,6 +14,7 @@ import SimpleSolarSystem from './pages/SimpleSolarSystem';
 import SatelliteTracker from './pages/SatelliteTracker';
 import EclipsePredictions from './pages/EclipsePredictions';
 import AstronomicalMythology from './pages/AstronomicalMythology';
+import PlanetExplorer from './pages/PlanetExplorer';
 import ViewerAnalytics from './components/ViewerAnalytics';
 import Footer from './components/Footer';
 import { Toaster } from '@/components/ui/sonner';
