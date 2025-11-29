@@ -306,33 +306,37 @@ const InteractiveSkyMap = () => {
 
   const handleCanvasMouseMove = (e) => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+    
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     
     setMousePos({ x: e.clientX, y: e.clientY });
     
     let foundHover = null;
     
-    // Check hover on stars
-    for (const star of stars) {
-      if (star._x && star._y) {
-        const distance = Math.sqrt(Math.pow(x - star._x, 2) + Math.pow(y - star._y, 2));
-        if (distance < (star._size || 3) + 5) {
-          foundHover = { type: 'star', data: star };
+    // Check hover on planets first (larger targets)
+    for (const planet of Object.values(planets)) {
+      if (planet._x && planet._y && planet.visible) {
+        const distance = Math.sqrt(Math.pow(x - planet._x, 2) + Math.pow(y - planet._y, 2));
+        if (distance < 30) { // Increased hover area
+          foundHover = { type: 'planet', data: planet };
           canvas.style.cursor = 'pointer';
           break;
         }
       }
     }
     
-    // Check hover on planets
+    // Check hover on stars
     if (!foundHover) {
-      for (const planet of Object.values(planets)) {
-        if (planet._x && planet._y && planet.visible) {
-          const distance = Math.sqrt(Math.pow(x - planet._x, 2) + Math.pow(y - planet._y, 2));
-          if (distance < (planet._size || 8) + 10) {
-            foundHover = { type: 'planet', data: planet };
+      for (const star of stars) {
+        if (star._x && star._y && star.altitude > 0) {
+          const distance = Math.sqrt(Math.pow(x - star._x, 2) + Math.pow(y - star._y, 2));
+          if (distance < (star._size || 3) + 10) {
+            foundHover = { type: 'star', data: star };
             canvas.style.cursor = 'pointer';
             break;
           }
