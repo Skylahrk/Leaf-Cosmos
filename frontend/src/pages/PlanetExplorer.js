@@ -245,17 +245,21 @@ const PlanetExplorer = () => {
     controls.autoRotate = true;
     controls.autoRotateSpeed = 1;
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    // Lighting - improved for ring visibility
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 1.5, 100);
-    pointLight.position.set(10, 10, 10);
+    const pointLight = new THREE.PointLight(0xffffff, 2, 100);
+    pointLight.position.set(15, 10, 15);
     scene.add(pointLight);
 
-    const pointLight2 = new THREE.PointLight(0x667eea, 0.8, 100);
+    const pointLight2 = new THREE.PointLight(0xffffff, 1.2, 100);
     pointLight2.position.set(-10, -5, -10);
     scene.add(pointLight2);
+    
+    const topLight = new THREE.PointLight(0xffffff, 1, 100);
+    topLight.position.set(0, 20, 0);
+    scene.add(topLight);
 
     // Stars background
     const starsGeometry = new THREE.BufferGeometry();
