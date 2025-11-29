@@ -139,7 +139,7 @@ const SatelliteTracker = () => {
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         <div style={{
           textAlign: 'center',
-          marginBottom: '3rem'
+          marginBottom: '2rem'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
             <Satellite size={48} color="#667eea" />
@@ -148,6 +148,30 @@ const SatelliteTracker = () => {
           <p style={{ fontSize: '1.2rem', color: '#b8c5ff' }}>
             Track ISS, Starlink, GPS satellites and more in real-time
           </p>
+        </div>
+
+        {/* Info Banner */}
+        <div style={{
+          marginBottom: '2rem',
+          padding: '1.5rem',
+          background: 'rgba(59, 130, 246, 0.1)',
+          border: '2px solid rgba(59, 130, 246, 0.3)',
+          borderRadius: '16px',
+          backdropFilter: 'blur(10px)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'start', gap: '1rem' }}>
+            <div style={{ fontSize: '2rem' }}>ℹ️</div>
+            <div>
+              <div style={{ fontSize: '1.1rem', fontWeight: '600', color: '#60a5fa', marginBottom: '0.5rem' }}>
+                Why Most Satellites Show "Below Horizon"
+              </div>
+              <div style={{ fontSize: '0.95rem', color: '#b8c5ff', lineHeight: '1.6' }}>
+                <strong>This is completely normal!</strong> At any given moment, most satellites orbit on the other side of Earth from your location. 
+                A satellite is only visible when it passes overhead (above your horizon). Use the <strong>"Upcoming Passes"</strong> section 
+                below to see exactly when each satellite will be visible from your location over the next 7 days.
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Satellite Group Selection */}
