@@ -36,6 +36,7 @@ function App() {
           <Route path="/solar-test" element={<HelicalSolarSystem />} />
           <Route path="/satellites" element={<SatelliteTracker />} />
           <Route path="/eclipses" element={<EclipsePredictions />} />
+          <Route path="/mythology" element={<AstronomicalMythology />} />
         </Routes>
         <Footer />
       </BrowserRouter>
