@@ -259,29 +259,23 @@ const InteractiveSkyMap = () => {
 
   const handleCanvasClick = (e) => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+    
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
     
-    // Check if clicked on a star
-    for (const star of stars) {
-      if (star._x && star._y) {
-        const distance = Math.sqrt(Math.pow(x - star._x, 2) + Math.pow(y - star._y, 2));
-        if (distance < (star._size || 3) + 5) {
-          setSelectedObject({
-            type: 'star',
-            data: star
-          });
-          return;
-        }
-      }
-    }
+    console.log('Click at:', x, y);
     
-    // Check if clicked on a planet
+    // Check if clicked on a planet (check planets first as they're larger)
     for (const planet of Object.values(planets)) {
       if (planet._x && planet._y && planet.visible) {
         const distance = Math.sqrt(Math.pow(x - planet._x, 2) + Math.pow(y - planet._y, 2));
-        if (distance < (planet._size || 8) + 10) {
+        console.log(`Planet ${planet.name} at (${planet._x}, ${planet._y}), distance: ${distance}`);
+        if (distance < 30) { // Increased hit area
+          console.log(`Selected planet: ${planet.name}`);
           setSelectedObject({
             type: 'planet',
             data: planet
@@ -291,6 +285,22 @@ const InteractiveSkyMap = () => {
       }
     }
     
+    // Check if clicked on a star
+    for (const star of stars) {
+      if (star._x && star._y && star.altitude > 0) {
+        const distance = Math.sqrt(Math.pow(x - star._x, 2) + Math.pow(y - star._y, 2));
+        if (distance < (star._size || 3) + 10) { // Increased hit area
+          console.log(`Selected star: ${star.name}`);
+          setSelectedObject({
+            type: 'star',
+            data: star
+          });
+          return;
+        }
+      }
+    }
+    
+    console.log('No object selected');
     setSelectedObject(null);
   };
 
