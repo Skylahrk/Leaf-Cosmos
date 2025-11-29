@@ -322,7 +322,7 @@ const InteractiveSkyMap = () => {
     for (const planet of Object.values(planets)) {
       if (planet._x && planet._y && planet.visible) {
         const distance = Math.sqrt(Math.pow(x - planet._x, 2) + Math.pow(y - planet._y, 2));
-        if (distance < 60) { // Large hover area for easy interaction
+        if (distance < 150) { // Very large hover area for easy interaction
           foundHover = { type: 'planet', data: planet };
           canvas.style.cursor = 'pointer';
           break;
