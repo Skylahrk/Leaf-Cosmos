@@ -395,10 +395,21 @@ const SatelliteTracker = () => {
                 maxHeight: '50vh',
                 overflowY: 'auto'
               }}>
-                <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Clock size={24} />
                   Upcoming Passes (Next 7 Days)
                 </h2>
+                <div style={{ 
+                  fontSize: '0.9rem', 
+                  color: '#10b981', 
+                  marginBottom: '1.5rem',
+                  padding: '0.75rem',
+                  background: 'rgba(16, 185, 129, 0.1)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(16, 185, 129, 0.3)'
+                }}>
+                  ✨ These are the times when <strong>{selectedSatellite.name}</strong> will be visible from your location!
+                </div>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {satellitePasses.map((pass, index) => (
