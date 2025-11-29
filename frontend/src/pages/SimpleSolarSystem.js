@@ -163,6 +163,10 @@ const SimpleSolarSystem = () => {
       sunGlow.position.z = -forwardMotion;
       sunLight.position.z = -forwardMotion;
 
+      // Camera follows the sun to keep it in view
+      camera.position.z = -forwardMotion;
+      controls.target.set(0, 0, -forwardMotion);
+
       // Update planets - faster orbital motion for dramatic effect
       planets.forEach((planet, index) => {
         // Increment angle - faster for more visible spirals!
