@@ -274,7 +274,7 @@ const InteractiveSkyMap = () => {
       if (planet._x && planet._y && planet.visible) {
         const distance = Math.sqrt(Math.pow(x - planet._x, 2) + Math.pow(y - planet._y, 2));
         console.log(`Planet ${planet.name} at (${planet._x}, ${planet._y}), distance: ${distance}`);
-        if (distance < 60) { // Large hit area for easy clicking
+        if (distance < 150) { // Very large hit area for easy clicking
           console.log(`Selected planet: ${planet.name}`);
           setSelectedObject({
             type: 'planet',
