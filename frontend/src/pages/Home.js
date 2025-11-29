@@ -170,6 +170,17 @@ const Home = () => {
               Explore Mythologies →
             </Link>
           </div>
+
+          <div className="feature-card" data-testid="feature-planet-explorer">
+            <div className="feature-icon"><Sparkles size={48} /></div>
+            <h3 className="feature-title">3D Planet Explorer</h3>
+            <p className="feature-description">
+              Interactive 3D models of all Solar System planets with detailed information, stats, and fascinating facts.
+            </p>
+            <Link to="/planets" style={{ marginTop: '1rem', display: 'inline-block', color: '#667eea', textDecoration: 'none', fontWeight: '600' }}>
+              Explore Planets →
+            </Link>
+          </div>
         </div>
       </section>
 
