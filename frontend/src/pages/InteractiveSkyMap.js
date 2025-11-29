@@ -335,7 +335,7 @@ const InteractiveSkyMap = () => {
       for (const star of stars) {
         if (star._x && star._y && star.altitude > 0) {
           const distance = Math.sqrt(Math.pow(x - star._x, 2) + Math.pow(y - star._y, 2));
-          if (distance < (star._size || 3) + 10) {
+          if (distance < (star._size || 3) + 20) {
             foundHover = { type: 'star', data: star };
             canvas.style.cursor = 'pointer';
             break;
