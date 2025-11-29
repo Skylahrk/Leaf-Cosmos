@@ -159,6 +159,17 @@ const Home = () => {
               View Eclipses →
             </Link>
           </div>
+
+          <div className="feature-card" data-testid="feature-mythology">
+            <div className="feature-icon"><Globe size={48} /></div>
+            <h3 className="feature-title">Astronomical Mythologies</h3>
+            <p className="feature-description">
+              Explore how different cultures - Indian, Greek, Chinese, Hebrew, Arabic, and Mayan - interpret celestial objects.
+            </p>
+            <Link to="/mythology" style={{ marginTop: '1rem', display: 'inline-block', color: '#667eea', textDecoration: 'none', fontWeight: '600' }}>
+              Explore Mythologies →
+            </Link>
+          </div>
         </div>
       </section>
 
