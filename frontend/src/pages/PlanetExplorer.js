@@ -334,16 +334,32 @@ const PlanetExplorer = () => {
 
     // Add rings for Saturn
     if (planetData.hasRings) {
-      const ringGeometry = new THREE.RingGeometry(planetData.size * 1.5, planetData.size * 2.3, 64);
-      const ringMaterial = new THREE.MeshBasicMaterial({
-        color: 0xc9a870,
+      const ringGeometry = new THREE.RingGeometry(planetData.size * 1.4, planetData.size * 2.5, 128);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+        color: 0xe6d9b8,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.7
+        opacity: 0.9,
+        roughness: 0.8,
+        metalness: 0.1
       });
       const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-      ring.rotation.x = Math.PI / 2;
+      ring.rotation.x = Math.PI / 2.3; // Slight tilt for better visibility
       planet.add(ring);
+      
+      // Add inner ring detail
+      const innerRingGeometry = new THREE.RingGeometry(planetData.size * 1.2, planetData.size * 1.35, 64);
+      const innerRingMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf5e6d3,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.8,
+        roughness: 0.7,
+        metalness: 0.2
+      });
+      const innerRing = new THREE.Mesh(innerRingGeometry, innerRingMaterial);
+      innerRing.rotation.x = Math.PI / 2.3;
+      planet.add(innerRing);
     }
 
     // Add atmosphere glow
