@@ -384,6 +384,174 @@ const SatelliteTracker = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Visual Indicators */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+                {/* Sky Chart */}
+                <div style={{
+                  background: 'rgba(20, 10, 50, 0.8)',
+                  border: '2px solid rgba(180, 160, 255, 0.4)',
+                  borderRadius: '20px',
+                  padding: '2rem',
+                  backdropFilter: 'blur(15px)'
+                }}>
+                  <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', textAlign: 'center' }}>
+                    Sky Position (Where to Look)
+                  </h3>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '1', margin: '0 auto' }}>
+                    {/* Sky chart circle */}
+                    <svg viewBox="0 0 200 200" style={{ width: '100%', height: '100%' }}>
+                      {/* Horizon circle */}
+                      <circle cx="100" cy="100" r="90" fill="rgba(30, 20, 80, 0.5)" stroke="#667eea" strokeWidth="2"/>
+                      
+                      {/* Altitude rings */}
+                      <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(102, 126, 234, 0.3)" strokeWidth="1" strokeDasharray="2,2"/>
+                      <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(102, 126, 234, 0.3)" strokeWidth="1" strokeDasharray="2,2"/>
+                      
+                      {/* Cardinal directions */}
+                      <text x="100" y="15" textAnchor="middle" fill="#b8c5ff" fontSize="12" fontWeight="600">N</text>
+                      <text x="185" y="105" textAnchor="middle" fill="#b8c5ff" fontSize="12" fontWeight="600">E</text>
+                      <text x="100" y="195" textAnchor="middle" fill="#b8c5ff" fontSize="12" fontWeight="600">S</text>
+                      <text x="15" y="105" textAnchor="middle" fill="#b8c5ff" fontSize="12" fontWeight="600">W</text>
+                      
+                      {/* Zenith label */}
+                      <text x="100" y="100" textAnchor="middle" fill="#667eea" fontSize="10" opacity="0.5">Zenith</text>
+                      
+                      {/* Satellite position */}
+                      {satellitePosition.visible && (() => {
+                        // Convert altitude/azimuth to x,y position
+                        // Altitude: 0° = edge (r=90), 90° = center (r=0)
+                        // Azimuth: 0° = N, 90° = E, 180° = S, 270° = W
+                        const altRad = satellitePosition.observer_altitude * (Math.PI / 180);
+                        const azRad = (satellitePosition.observer_azimuth - 90) * (Math.PI / 180); // Adjust for SVG coordinates
+                        const radius = 90 * (1 - satellitePosition.observer_altitude / 90);
+                        const x = 100 + radius * Math.cos(azRad);
+                        const y = 100 + radius * Math.sin(azRad);
+                        
+                        return (
+                          <>
+                            <circle cx={x} cy={y} r="8" fill="#10b981" stroke="#fff" strokeWidth="2"/>
+                            <circle cx={x} cy={y} r="12" fill="none" stroke="#10b981" strokeWidth="2" opacity="0.5">
+                              <animate attributeName="r" from="8" to="20" dur="1.5s" repeatCount="indefinite"/>
+                              <animate attributeName="opacity" from="0.8" to="0" dur="1.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <text x={x} y={y - 15} textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="600">
+                              {satellitePosition.observer_altitude.toFixed(0)}°
+                            </text>
+                          </>
+                        );
+                      })()}
+                      
+                      {!satellitePosition.visible && (
+                        <text x="100" y="100" textAnchor="middle" fill="#ef4444" fontSize="14" fontWeight="600">
+                          Below Horizon
+                        </text>
+                      )}
+                    </svg>
+                    <div style={{
+                      textAlign: 'center',
+                      marginTop: '1rem',
+                      fontSize: '0.9rem',
+                      color: '#b8c5ff'
+                    }}>
+                      {satellitePosition.visible ? (
+                        <>
+                          <div style={{ color: '#10b981', fontWeight: '600', marginBottom: '0.5rem' }}>
+                            ✅ Satellite is above your horizon!
+                          </div>
+                          <div>Look {satellitePosition.observer_azimuth.toFixed(0)}° (
+                            {satellitePosition.observer_azimuth < 22.5 || satellitePosition.observer_azimuth > 337.5 ? 'North' :
+                             satellitePosition.observer_azimuth < 67.5 ? 'Northeast' :
+                             satellitePosition.observer_azimuth < 112.5 ? 'East' :
+                             satellitePosition.observer_azimuth < 157.5 ? 'Southeast' :
+                             satellitePosition.observer_azimuth < 202.5 ? 'South' :
+                             satellitePosition.observer_azimuth < 247.5 ? 'Southwest' :
+                             satellitePosition.observer_azimuth < 292.5 ? 'West' : 'Northwest'}
+                          ) at {satellitePosition.observer_altitude.toFixed(0)}° up
+                          </div>
+                        </>
+                      ) : (
+                        <div style={{ color: '#ef4444' }}>
+                          Satellite is on the other side of Earth
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ground Track Map */}
+                <div style={{
+                  background: 'rgba(20, 10, 50, 0.8)',
+                  border: '2px solid rgba(180, 160, 255, 0.4)',
+                  borderRadius: '20px',
+                  padding: '2rem',
+                  backdropFilter: 'blur(15px)'
+                }}>
+                  <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', textAlign: 'center' }}>
+                    Ground Track (Position on Earth)
+                  </h3>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '2/1', margin: '0 auto' }}>
+                    <svg viewBox="0 0 360 180" style={{ width: '100%', height: '100%' }}>
+                      {/* World map background */}
+                      <rect x="0" y="0" width="360" height="180" fill="rgba(30, 50, 100, 0.3)" stroke="#667eea" strokeWidth="1"/>
+                      
+                      {/* Grid lines */}
+                      {[...Array(7)].map((_, i) => (
+                        <line key={`lat-${i}`} x1="0" y1={i * 30} x2="360" y2={i * 30} stroke="rgba(102, 126, 234, 0.2)" strokeWidth="0.5"/>
+                      ))}
+                      {[...Array(13)].map((_, i) => (
+                        <line key={`lon-${i}`} x1={i * 30} y1="0" x2={i * 30} y2="180" stroke="rgba(102, 126, 234, 0.2)" strokeWidth="0.5"/>
+                      ))}
+                      
+                      {/* Equator */}
+                      <line x1="0" y1="90" x2="360" y2="90" stroke="#667eea" strokeWidth="1" strokeDasharray="3,3"/>
+                      
+                      {/* Prime Meridian */}
+                      <line x1="180" y1="0" x2="180" y2="180" stroke="#667eea" strokeWidth="1" strokeDasharray="3,3"/>
+                      
+                      {/* Satellite position */}
+                      {(() => {
+                        // Convert lat/lon to SVG coordinates
+                        // Longitude: -180 to 180 -> 0 to 360
+                        // Latitude: 90 to -90 -> 0 to 180
+                        const x = ((satellitePosition.longitude + 180) % 360);
+                        const y = (90 - satellitePosition.latitude);
+                        
+                        return (
+                          <>
+                            <circle cx={x} cy={y} r="4" fill="#10b981" stroke="#fff" strokeWidth="1"/>
+                            <circle cx={x} cy={y} r="8" fill="none" stroke="#10b981" strokeWidth="1" opacity="0.5">
+                              <animate attributeName="r" from="4" to="12" dur="1.5s" repeatCount="indefinite"/>
+                              <animate attributeName="opacity" from="0.8" to="0" dur="1.5s" repeatCount="indefinite"/>
+                            </circle>
+                          </>
+                        );
+                      })()}
+                      
+                      {/* Labels */}
+                      <text x="5" y="12" fill="#b8c5ff" fontSize="8">90°N</text>
+                      <text x="5" y="92" fill="#b8c5ff" fontSize="8">0°</text>
+                      <text x="5" y="178" fill="#b8c5ff" fontSize="8">90°S</text>
+                    </svg>
+                    <div style={{
+                      textAlign: 'center',
+                      marginTop: '1rem',
+                      fontSize: '0.9rem',
+                      color: '#b8c5ff'
+                    }}>
+                      <div style={{ fontWeight: '600', marginBottom: '0.5rem' }}>
+                        📍 Current Location on Earth
+                      </div>
+                      <div>
+                        Lat: {satellitePosition.latitude.toFixed(2)}° | 
+                        Lon: {satellitePosition.longitude.toFixed(2)}° | 
+                        Alt: {satellitePosition.altitude_km.toFixed(0)} km
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </>
             )}
 
             {/* Upcoming Passes */}
